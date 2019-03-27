@@ -135,7 +135,7 @@ namespace global_func{
         return true;
     }
 
-
+    //copy from cpu to gpu
     template <typename T>
     inline void cpu2gpu(T *&d_out, T *&h_in, const size_t &size) {
         if(d_out == nullptr){
@@ -144,7 +144,7 @@ namespace global_func{
         checkCudaErrors(cudaMemcpy(d_out, h_in, sizeof(T) * size, cudaMemcpyHostToDevice));
     }
 
-
+    //copy from gpu to cpu
     template <typename T>
     inline void gpu2cpu(T *&h_out, T *&d_in, const size_t &size){
         if(h_out == nullptr){
@@ -152,6 +152,7 @@ namespace global_func{
         }
         checkCudaErrors(cudaMemcpy(h_out, d_in, sizeof(T) * size, cudaMemcpyDeviceToHost));
     }
+
 
     //After fixing the number of threads
     __host__ __device__
