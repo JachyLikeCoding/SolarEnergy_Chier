@@ -25,8 +25,11 @@ target_include_directories(datastructure PUBLIC "DataStructure/Grid")
 target_include_directories(datastructure PUBLIC "DataStructure/Sunray")
 target_include_directories(datastructure PUBLIC "DataStructure/Heliostat")
 target_include_directories(datastructure PUBLIC "DataStructure/Receiver")
+include_directories("${CMAKE_SOURCE_DIR}/Scene/DataStructure")
+include_directories("${CMAKE_SOURCE_DIR}/Tool")
 
-target_link_libraries(datastructure randomGenerator)
+
+target_link_libraries(datastructure ${EXTRA_LIBS})
 
 message("Scene construction ends...")
 
