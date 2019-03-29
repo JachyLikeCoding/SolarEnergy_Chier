@@ -1,5 +1,8 @@
 #include "Grid.cuh"
 
+/**
+* Getters and setters of attributes for Grid object.
+*/
 int Grid::getGridType() const {
     return type_;
 }

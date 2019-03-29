@@ -1,27 +1,33 @@
-#General Configuration
-cmake_minimum_required(VERSION 3.13)
-project(SolarEnergy_Chier)
+# General Configuration
+cmake_minimum_required(VERSION 3.12)
+project(SolarEnergyRayTracing)
 
-#set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
 
 # packages
 find_package(CUDA REQUIRED)
 
-#Tool
+# Tool
 add_subdirectory(Tool/RandomNumberGenerator)
 
-#Data Structure
+
+# Data Structure
 add_subdirectory(Scene)
 
-#Set libs
-#set(EXTRA_LIBS ${EXTRA_LIBS} rayTracingPipeline)
+# Quasi Monte Carlo Ray Tracing
+add_subdirectory(QuasiMonteCarloRayTracing)
 
-#Finial Project
-cuda_add_executable(SolarEnergy_Chier main.cpp)
-target_include_directories(SolarEnergy_Chier PUBLIC Util/)
-target_include_directories(SolarEnergy_Chier PUBLIC Scene/)
-target_include_directories(SolarEnergy_Chier PUBLIC Tool/)
-target_link_libraries(SolarEnergy_Chier ${EXTRA_LIBS})
+# Ray Tracing Pipeline
+add_subdirectory(RayTracingPipeline)
+
+
+
+# Set Libs
+set(EXTRA_LIBS ${EXTRA_LIBS} rayTracingPipeline)
+
+# Finial Project
+cuda_add_executable(SolarEnergyRayTracing main.cpp)
+target_link_libraries(SolarEnergyRayTracing ${EXTRA_LIBS})
+target_include_directories(SolarEnergyRayTracing PUBLIC RayTracingPipeline/)
 
 message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
