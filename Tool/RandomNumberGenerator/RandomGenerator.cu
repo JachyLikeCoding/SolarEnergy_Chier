@@ -2,7 +2,7 @@
 // Created by feng on 19-3-28.
 //
 #include "RandomGenerator.cuh"
-#include "check_cuda.h"]
+#include "check_cuda.h"
 #include "global_function.cuh"
 
 curandGenerator_t RandomGenerator::gen;
@@ -40,7 +40,7 @@ bool RandomGenerator::gpu_Uniform(int *d_min_max_array, int low_threshold, int h
         return false;
     }
 
-    map_float2int << < nBlocks, nThreads > >>(d_min_max_array, d_uniform, low_threshold, high_threshold, array_length);
+    map_float2int << < nBlocks, nThreads >> >(d_min_max_array, d_uniform, low_threshold, high_threshold, array_length);
     checkCudaErrors(cudaDeviceSynchronize());
     checkCudaErrors(cudaGetLastError());
     checkCudaErrors(cudaFree(d_uniform));
