@@ -71,7 +71,7 @@ float Receiver::getPixelLength() const{
     return pixel_length_;
 }
 
-float Receiver::getDeviceImage() const{
+float *Receiver::getDeviceImage() const{
     return d_image_;
 }
 

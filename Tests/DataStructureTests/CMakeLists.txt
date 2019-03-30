@@ -1,13 +1,13 @@
-message("Data structure test construction begins...")
+message("Data structure test cmake begins...")
 
 cmake_minimum_required(VERSION 3.13)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} --std=c++11")
 
 #package
 find_package(CUDA REQUIRED)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -00")
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -00")
-#set(CUDA_NVCC_FLAGS -03;-G;-g)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+#set(CUDA_NVCC_FLAGS -O3;-G;-g)
 
 #Test target
 file(GLOB CURRENT_SOURCES *.cpp *.cu)

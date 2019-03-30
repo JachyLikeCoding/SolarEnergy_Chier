@@ -10,7 +10,7 @@
 #include <cuda_runtime.h>
 #include <vector>
 #include "Heliostat.cuh"
-
+using namespace std;
 
 class Grid{
 public:
@@ -49,7 +49,7 @@ public:
 
 
 protected:
-    int type_;
+    int type_;                  //RectangleGrid : 0  ... ...
     float3 pos_;
     float3 size_;
     float3 interval_;

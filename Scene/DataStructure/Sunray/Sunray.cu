@@ -62,14 +62,14 @@ void Sunray::setNumOfSunshapeLightsPerGroup(int num_sunshape_lights_per_group){
     num_sunshape_lights_per_group_ = num_sunshape_lights_per_group;
 }
 
-float3 Sunray::getDeviceSampleLights() const{
+float3 *Sunray::getDeviceSampleLights() const{
     return d_samplelights_;
 }
 void Sunray::setDeviceSampleLights(float3 *d_samplelights){
     d_samplelights_ = d_samplelights;
 }
 
-float3 Sunray::getDevicePerturbation() const{
+float3 *Sunray::getDevicePerturbation() const{
     return d_perturbation_;
 }
 void Sunray::setDevicePerturbation(float3 *d_perturbation){
