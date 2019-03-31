@@ -6,6 +6,6 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-    cout << "Congratulations! No error！" << endl;
+    cout << "Congratulations!！" << endl;
     return 0;
 }

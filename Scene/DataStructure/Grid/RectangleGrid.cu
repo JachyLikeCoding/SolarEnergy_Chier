@@ -26,7 +26,7 @@ void RectangleGrid::CClear(){
 
 int boxIntersect(int helioBeginId, int subHelioSize, float3 min_pos, float3 max_pos,
         const RectangleGrid &grid, vector<vector<int> > &grid_helio_match_vector){
-    cout << "【helioBeginID:】 "<< helioBeginId << endl;
+//    cout << "【helioBeginID:】 "<< helioBeginId << endl;
     int size = 0;
     float3 pos = grid.getPosition();
     float3 interval = grid.getInterval();
@@ -43,7 +43,9 @@ int boxIntersect(int helioBeginId, int subHelioSize, float3 min_pos, float3 max_
     for(int x = max(0 , min_grid_pos.x); x <= min(subgrid_num.x - 1 , max_grid_pos.x); ++x){
         for(int y = max(0, min_grid_pos.y); y <= min(subgrid_num.y - 1, max_grid_pos.y); ++y){
             for(int z = max(0, min_grid_pos.z); z <= min(subgrid_num.z - 1, max_grid_pos.z); ++z){
-                int pos_id = x * subgrid_num.y * subgrid_num.z + y * subgrid_num.z + z;
+                int pos_id = (x * subgrid_num.y * subgrid_num.z)
+                                + (y * subgrid_num.z)
+                                + z;
                 for(int i = 0; i < subHelioSize; ++i){
                     grid_helio_match_vector[pos_id].push_back(helioBeginId + i);
                 }
@@ -51,7 +53,7 @@ int boxIntersect(int helioBeginId, int subHelioSize, float3 min_pos, float3 max_
             }
         }
     }
-    cout << "----------boxIntersect return size: ------------" << size << endl;
+//    cout << "----------boxIntersect return size: ------------" << size << endl;
     return size;
 }
 
@@ -68,16 +70,16 @@ int RectangleGrid::CGridHelioMatch(const vector<Heliostat *> &h_helios){
     num_grid_helio_match_ = 0;
 
     vector<vector<int> > grid_helio_match_vector(subgrid_num_.x * subgrid_num_.y * subgrid_num_.z, vector<int>());
-    cout << "start_helio_index_: " << start_helio_index_ << endl;
-    cout << "num_helios_: " << num_helios_ << endl;
+    //cout << "start_helio_index_: " << start_helio_index_ << endl;
+    //cout << "num_helios_: " << num_helios_ << endl;
     for(int i = start_helio_index_; i < start_helio_index_ + num_helios_; ++i){
         float3 pos = h_helios[i]->getPosition();
         radius = length(h_helios[i]->getSize())/2;
 
         minPos = pos - radius;
         maxPos = pos + radius;
-        cout << "No." << i << " helio's minPos: " << minPos.x << ", " << minPos.y << ", " << minPos.z << endl;
-        cout << "No." << i << " helio's maxPos: " << maxPos.x << ", " << maxPos.y << ", " << maxPos.z << endl;
+        //cout << "No." << i << " helio's minPos: " << minPos.x << ", " << minPos.y << ", " << minPos.z << endl;
+        //cout << "No." << i << " helio's maxPos: " << maxPos.x << ", " << maxPos.y << ", " << maxPos.z << endl;
 
         num_grid_helio_match_ += boxIntersect(start_subhelio_pos, h_helios[i]->getSubHelioSize(), minPos, maxPos, *this, grid_helio_match_vector);
         start_subhelio_pos += h_helios[i]->getSubHelioSize();
@@ -90,13 +92,13 @@ int RectangleGrid::CGridHelioMatch(const vector<Heliostat *> &h_helios){
 
     int index = 0;
     for(int i = 0; i < subgrid_num_.x * subgrid_num_.y * subgrid_num_.z; ++i){
-        cout << "grid_helio_match_vector[i].size():" << grid_helio_match_vector[i].size() << endl;
-        for(int p = 0; p < grid_helio_match_vector[i].size(); p++){
-            cout << grid_helio_match_vector[i][p] << " ";
-        }
-        cout << endl;
+//        cout << "grid_helio_match_vector[i].size():" << grid_helio_match_vector[i].size() << endl;
+//        for(int p = 0; p < grid_helio_match_vector[i].size(); p++){
+//            cout << grid_helio_match_vector[i][p] << " ";
+//        }
+//        cout << endl;
         h_grid_helio_index[i + 1] = int(h_grid_helio_index[i] + grid_helio_match_vector[i].size());
-        cout << "h_grid_helio_index[" << i+1 << "] = " << h_grid_helio_index[i] << " + " << grid_helio_match_vector[i].size() << " = " << h_grid_helio_index[i+1] << endl;
+//        cout << "h_grid_helio_index[" << i+1 << "] = " << h_grid_helio_index[i] << " + " << grid_helio_match_vector[i].size() << " = " << h_grid_helio_index[i+1] << endl;
         for(int j = 0; j < grid_helio_match_vector[i].size(); ++j, ++index){
             h_grid_helio_match[index] = grid_helio_match_vector[i][j];
         }

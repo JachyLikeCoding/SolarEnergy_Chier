@@ -163,10 +163,13 @@ namespace global_func{
         }
 
         int block_lastDim = (size + nThreads - 1) / nThreads;
+        //printf("block_lastDim: %d\n" ,block_lastDim);
+
         if(block_lastDim < MAX_BLOCK_SINGLE_DIM){
             nBlocks.x = block_lastDim;
             nBlocks.y = 1;
             nBlocks.z = 1;
+            //printf("nBlocks: ( %d, %d, %d )\n", nBlocks.x, nBlocks.y, nBlocks.z);
             return true;
         }
 
@@ -175,18 +178,20 @@ namespace global_func{
             nBlocks.x = MAX_BLOCK_SINGLE_DIM;
             nBlocks.y = block_lastDim;
             nBlocks.z = 1;
+            printf("nBlocks: ( %d, %d, %d )\n", nBlocks.x, nBlocks.y, nBlocks.z);
             return true;
         }else{
             nBlocks.x = MAX_BLOCK_SINGLE_DIM;
             nBlocks.y = MAX_BLOCK_SINGLE_DIM;
             nBlocks.z = (block_lastDim + MAX_BLOCK_SINGLE_DIM - 1) / MAX_BLOCK_SINGLE_DIM;
+            printf("nBlocks: ( %d, %d, %d )\n", nBlocks.x, nBlocks.y, nBlocks.z);
             return true;
         }
     }
 
     //fix the number of threads
     __host__ __device__
-    inline bool setThreadBlocks(dim3 &nBlocks, int nThreads, const size_t size){
+    inline bool setThreadBlocks(dim3 &nBlocks, int &nThreads, const size_t &size){
         nThreads = (MAX_THREADS <= size) ? MAX_THREADS : size;
         return setThreadBlocks(nBlocks, nThreads, size, true);
     }

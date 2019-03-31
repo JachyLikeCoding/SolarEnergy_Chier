@@ -99,16 +99,18 @@ TEST_F(RectangleGridFixture, CGridHelioMatchGoodExample1){
     std::cout << "======Index======" << std::endl;
     vector<int> index;
     index = convert2vector(h_grid_helio_index, size);
-    for(int i = 0; i < index.size(); i++)
-        cout << index[i] <<" ";
+    for(int i : index)
+        cout << i <<" ";
     cout << endl;
     EXPECT_THAT(convert2vector(h_grid_helio_index, size), testing::ElementsAreArray({0,1,2,3,4,6,6}));
 
     std::cout << "======Match====== " << std::endl;
     vector<int> match;
     match = convert2vector(h_grid_helio_match, rectGrid.getNumberOfGridHeliostatMatch());
-    for(int i = 0; i < match.size(); i++)
-        cout << match[i] <<" ";
+    for(int i : match)
+        cout << i << " ";
+    //for(int i = 0; i < match.size(); ++i)
+        //cout << match[i] <<" ";
     cout << endl;
     EXPECT_THAT(convert2vector(h_grid_helio_match, rectGrid.getNumberOfGridHeliostatMatch()), testing::ElementsAreArray({0,3,0,4,1,2}));
 }
@@ -141,16 +143,16 @@ TEST_F(RectangleGridFixture, CGridHelioMatchGoodExample12){
     std::cout << "======Index======" << std::endl;
     vector<int> index;
     index = convert2vector(h_grid_helio_index, size);
-    for(int i = 0; i < index.size(); i++)
-        cout << index[i] <<" ";
+    for(int i : index)
+        cout << i <<" ";
     cout << endl;
     EXPECT_THAT(convert2vector(h_grid_helio_index, size), testing::ElementsAreArray({0, 1, 5, 6, 11, 16, 16}));
 
     std::cout << "======Match====== " << std::endl;
     vector<int> match;
     match = convert2vector(h_grid_helio_match, rectGrid.getNumberOfGridHeliostatMatch());
-    for(int i = 0; i < match.size(); i++)
-        cout << match[i] <<" ";
+    for(int i : match)
+        cout << i <<" ";
     cout << endl;
     EXPECT_THAT(convert2vector(h_grid_helio_match, rectGrid.getNumberOfGridHeliostatMatch()),
             testing::ElementsAreArray({0, 6, 7, 8, 9, 0, 10, 11, 12, 13, 14, 1, 2, 3, 4, 5}));

@@ -10,7 +10,7 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 #set(CUDA_NVCC_FLAGS -O3;-G;-g)
 
 #Test target
-file(GLOB CURRENT_SOURCES *.cpp *.cu)
+file(GLOB CURRENT_SOURCES *.cpp *.cu *.h)           # ====> add "*.h", check it
 message("Test files name: ${CURRENT_SOURCES}")
 cuda_add_executable(DataStructureTests ${CURRENT_SOURCES})
 target_link_libraries(DataStructureTests gtest gtest_main)
