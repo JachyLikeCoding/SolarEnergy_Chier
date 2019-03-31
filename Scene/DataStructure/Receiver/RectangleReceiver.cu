@@ -5,14 +5,6 @@
 
 #include "RectangleReceiver.cuh"
 
-RectangleReceiver::RectangleReceiver(const RectangleReceiver &rectangle_receiver) : Receiver(rectangle_receiver){
-    for(int i = 0; i < 4; ++i){
-        rect_vertexes_[i] = rectangle_receiver.getRectangleVertex(i);
-    }
-    local_normal_ = rectangle_receiver.getLocalNormal();
-
-}
-
 void RectangleReceiver::CInit(int pixel_per_meter_for_receiver){
     pixel_length_ = 1.0f / float(pixel_per_meter_for_receiver);
     Cinit_vertex();

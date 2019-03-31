@@ -14,7 +14,15 @@ class RectangleReceiver : public Receiver{
 public:
     __device__ __host__ RectangleReceiver(){}
 
-    RectangleReceiver(const RectangleReceiver &rectangle_receiver) : Receiver(rectangle_receiver);
+    RectangleReceiver(const RectangleReceiver &rectangle_receiver) : Receiver(rectangle_receiver){
+        for(int i = 0; i < 4; ++i){
+            rect_vertexes_[i] = rectangle_receiver.getRectangleVertex(i);
+        }
+        local_normal_ = rectangle_receiver.getLocalNormal();
+
+    }
+
+
 
     //TODO: ADD TESTS
     __device__ __host__ bool GIntersect(const float3 &origin, const float3 &dir, float &t, float &u, float &v){
