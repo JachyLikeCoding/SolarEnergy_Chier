@@ -28,8 +28,8 @@ public:
     /**
      * Initialize the parameters.
      */
-    virtual void CInit(int geometry_info) = 0;
-    virtual void Cset_resolution(int geometry_info) = 0;
+    virtual void CInit(int pixel_per_meter_for_receiver) = 0;
+    virtual void Cset_resolution(int pixel_per_meter_for_receiver) = 0;
     virtual float3 getFocusCenter(const float3 &heliostat_position) = 0;
 
     /**
@@ -40,6 +40,8 @@ public:
      /**
       * Clean the final image matrix.
       */
+    void Cclean_image_content();
+
     void CClear();
 
     /**

@@ -17,6 +17,20 @@ void Receiver::Calloc_image(){
 /**
  * Clean the final image matrix.
  */
+void Receiver::Cclean_image_content(){
+    int n_resolution = resolution_.x * resolution_.y;
+    float *h_clean_receiver = new float[n_resolution];
+    for(int i = 0; i < n_resolution; ++i){
+        h_clean_receiver[i] = 0.0f;
+    }
+
+    //Clean screen
+    global_func::cpu2gpu(d_image_, h_clean_receiver, n_resolution);
+
+    delete[] h_clean_receiver;
+    h_clean_receiver = nullptr;
+}
+
 void Receiver::CClear(){
     if(d_image_){
         checkCudaErrors(cudaFree(d_image_));
