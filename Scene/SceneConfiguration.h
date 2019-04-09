@@ -33,7 +33,12 @@ public:
 
 
 private:
-    float3 sun_dir = make_float3(1.0f, 0.0f, 0.0f);         //===> add initialization
+    SceneConfiguration(){
+        sun_dir = make_float3(1.0f, 0.0f, 0.0f);
+    }
+    static SceneConfiguration *sceneConfigurationInstance;
+
+    float3 sun_dir;
     float dni = 1000.0f;
     float csr = 0.1f;
     int num_sunshape_groups = 128;
@@ -45,19 +50,7 @@ private:
     float helio_pixel_length = 0.01f;
     float reflected_rate = 0.88f;
 
-
-    SceneConfiguration(){
-         sun_dir = make_float3(1.0f, 0.0f, 0.0f);
-    }
-    static SceneConfiguration *sceneConfigurationInstance;
-
 };
-
-
-
-
-
-
 
 
 #endif //SOLARENERGY_CHIER_SCENECONFIGURATION_H
