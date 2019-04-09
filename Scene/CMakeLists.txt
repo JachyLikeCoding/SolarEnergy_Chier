@@ -26,7 +26,7 @@ target_include_directories(datastructure PUBLIC "DataStructure/Heliostat")
 target_include_directories(datastructure PUBLIC "DataStructure/Receiver")
 target_include_directories(datastructure PUBLIC "DataStructure/Sunray")
 
-#target_link_libraries(datastructure regularExpressionTree)
+target_link_libraries(datastructure regularExpressionTree)
 target_link_libraries(datastructure randomGenerator)
 
 # Configure Json
