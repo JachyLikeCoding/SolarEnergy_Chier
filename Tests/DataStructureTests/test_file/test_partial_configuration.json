@@ -1,0 +1,12 @@
+{
+  "csr": 1.0,
+  "dni": 500.0,
+  "num_of_sunshape_groups": 1,
+  "num_per_sunshape_group": 64,
+
+  "receiver_pixel_length": 0.05,
+
+  "helio_disturb_std": 0.02,
+  "helio_reflected_rate": 2.0,
+  "helio_pixel_length": 0.10
+}

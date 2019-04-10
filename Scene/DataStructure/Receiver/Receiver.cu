@@ -31,6 +31,11 @@ void Receiver::Cclean_image_content(){
     h_clean_receiver = nullptr;
 }
 
+Receiver::~Receiver() {
+    if(d_image_)
+        d_image_ = nullptr;
+}
+
 void Receiver::CClear(){
     if(d_image_){
         checkCudaErrors(cudaFree(d_image_));

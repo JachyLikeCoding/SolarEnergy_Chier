@@ -39,7 +39,7 @@ int set_3field(T &field, std::string field_json_format, nlohmann::json &json){
 int SceneConfiguration::loadConfiguration(std::string configuration_file_path) {
     std::ifstream inputJsonFile(configuration_file_path);
     if(inputJsonFile.fail()){
-        std::string error_message = "The file ' " + configuration_file_path + "' doesn't exist";
+        std::string error_message = "The file '" + configuration_file_path + "' doesn't exist";
         std::cerr << error_message << std::endl;
         throw std::runtime_error(error_message);
     }

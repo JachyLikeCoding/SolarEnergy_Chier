@@ -21,7 +21,6 @@ message("chier-test: ${gtest_SOURCE_DIR}")
 
 #Add the files to be tested
 include_directories("${CMAKE_SOURCE_DIR}/Scene")
-
 target_link_libraries(DataStructureTests datastructure)
 
 

@@ -10,6 +10,7 @@ find_package(CUDA REQUIRED)
 # Tool
 add_subdirectory(Tool/RandomNumberGenerator)
 add_subdirectory(Tool/FileLoader)
+add_subdirectory(Tool/ArgumentParser)
 
 # Data Structure
 add_subdirectory(Scene)
