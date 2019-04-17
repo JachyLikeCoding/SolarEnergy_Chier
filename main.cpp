@@ -1,11 +1,9 @@
-//
-// Created by feng on 19-3-27.
-//
-
 #include <iostream>
+#include "RayTracingPipeline.h"
+
 using namespace std;
 
 int main(int argc, char *argv[]){
-    cout << "Congratulations!！" << endl;
+    RayTracingPipeline::rayTracing(argc, argv);
     return 0;
 }

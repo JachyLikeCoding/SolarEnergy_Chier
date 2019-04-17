@@ -1,6 +1,7 @@
-message("Ray Tracing Pipeline begins...")
+message("----------Ray Tracing Pipeline begins----------")
 
-cmake_minimum_required(VERSION 3.13)
+# General Configuration
+cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
 
 #Generate lib
@@ -14,8 +15,9 @@ target_include_directories(rayTracingPipeline PUBLIC "${CMAKE_SOURCE_DIR}/Scene"
 include_directories("${CMAKE_SOURCE_DIR}/QuasiMonteCarloRayTracing")
 include_directories("${CMAKE_SOURCE_DIR}/Tool")
 
-#Set libs
-set(EXTRA_LIBS ${EXTRA_LIBS} datastructure)
+
+# Set Libs
+set(EXTRA_LIBS ${EXTRA_LIBS} argumentParser image_saver quasiMonteCarloRayTracing datastructure)
 target_link_libraries(rayTracingPipeline ${EXTRA_LIBS})
 
-message("Ray Tracing Pipeline ends...")
+message("----------Ray Tracing Pipeline ends----------")

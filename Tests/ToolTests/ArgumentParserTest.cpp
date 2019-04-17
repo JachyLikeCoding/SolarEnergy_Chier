@@ -18,9 +18,8 @@ protected:
 
 
 public:
-    ArgumentParser *argumentParser;
     ArgumentParserFixture() : argumentParser(nullptr){}
-
+    ArgumentParser *argumentParser;
     char executable_file_name[21] = "executable_file_name";
     char good_configuration_path_option[21] = "--configuration_path";
     char good_scene_path_option[13] = "--scene_path";
@@ -43,15 +42,11 @@ TEST_F(ArgumentParserFixture, parserGoodExample){
      *      /home/feng/SolarEnergy_Chier/Tests/ToolTests
      *      (setting method: "the dialog in upper right" -> "Edit Configurations...")
      * */
-//    char correctConfigurationPath[] = " /home/feng/SolarEnergy_Chier/Tests/ToolTests/test_file/test_configuration.json";
-//    char correctScenePath[] = "/home/feng/SolarEnergy_Chier/Tests/ToolTests/test_file/test_scene.scn";
-//    char correctOutputPath[] = "/home/feng/SolarEnergy_Chier/Tests/ToolTests/test_output/";
-//    char correctHeliostatIndexPath[] = "/home/feng/SolarEnergy_Chier/Tests/ToolTests/test_file/task_heliostats_index.txt";
 
-    char correctConfigurationPath[] = "/home/feng/SolarEnergy_Chier/Tests/ToolTests/test_file/test_configuration.json";
-    char correctScenePath[] = "/home/feng/SolarEnergy_Chier/Tests/ToolTests/test_file/test_scene.scn";
-    char correctOutputPath[] = "/home/feng/SolarEnergy_Chier/Tests/ToolTests/test_output/";
-    char correctHeliostatIndexPath[] = "/home/feng/SolarEnergy_Chier/Tests/ToolTests/test_file/task_heliostats_index.txt";
+    char correctConfigurationPath[] = "test_file/test_configuration.json";
+    char correctScenePath[] = "test_file/test_scene.scn";
+    char correctOutputPath[] = "test_output/";
+    char correctHeliostatIndexPath[] = "test_file/task_heliostats_index.txt";
 
     std::cout<<"\n1. With all long arguments";
     char *argv1[] = {

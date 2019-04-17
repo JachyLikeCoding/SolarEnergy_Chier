@@ -5,15 +5,18 @@
  * Intersect with heliostats in this rectangle grid.
  */
 __host__ __device__ bool rectGridDDA::intersect(const float3 &origin, const float3 &dir,
-                                                const float3 *d_heliostat_vertexes, const int *d_grid_heliostat_match,
+                                                const float3 *d_heliostat_vertexes,
+                                                const int *d_grid_heliostat_match,
                                                 int start_id, int end_id, int subheliostat_id, int numberOfSubHeliostat) {
     float t, u, v;
     for(int i = start_id; i < end_id; ++i){
         int subHeliostatIndex = d_grid_heliostat_match[i];
         if(subHeliostatIndex < subheliostat_id || subHeliostatIndex >= subheliostat_id + numberOfSubHeliostat){
-            if(global_func::rayParallelogramIntersect(origin, dir, d_heliostat_vertexes[3 * subHeliostatIndex + 1],
-                                                                   d_heliostat_vertexes[3 * subHeliostatIndex],
-                                                                   d_heliostat_vertexes[3 * subHeliostatIndex + 2], t, u, v)){
+            if(global_func::rayParallelogramIntersect(origin, dir,
+                                                      d_heliostat_vertexes[3 * subHeliostatIndex + 1],
+                                                      d_heliostat_vertexes[3 * subHeliostatIndex],
+                                                      d_heliostat_vertexes[3 * subHeliostatIndex + 2],
+                                                      t, u, v)){
                 return true;
             }
         }
@@ -65,9 +68,12 @@ __host__ __device__ bool rectGridDDA::collision(const float3 &origin, const floa
 
         grid_address = global_func::unroll_index(grid_index, rectGrid.getSubGridNumber());
 
-        if(intersect(origin, dir, d_subheliostat_vertexes, rectGrid.getNumberOfGridHeliostatMatch(),
-                rectGrid.getDeviceGridHeliostatIndex()[grid_address],rectGrid.getDeviceGridHeliostatIndex()[grid_address + 1],
-                heliostatArgument.subHeliostat_id, heliostatArgument.numberOfSubHeliostats)){
+        if(intersect(origin, dir, d_subheliostat_vertexes,
+                    rectGrid.getDeviceGridHeliostatMatch(),
+                    rectGrid.getDeviceGridHeliostatIndex()[grid_address],
+                    rectGrid.getDeviceGridHeliostatIndex()[grid_address + 1],
+                    heliostatArgument.subHeliostat_id,
+                    heliostatArgument.numberOfSubHeliostats)){
             return true;
         }
 
@@ -106,7 +112,7 @@ __host__ __device__ bool rectGridDDA::collision(const float3 &origin, const floa
         }
         tMax.x += (xMinFlag) ? tDelta.x : 0;
         tMax.y += (yMinFlag) ? tDelta.y : 0;
-        tMax.Z += (zMinFlag) ? tDelta.z : 0;
+        tMax.z += (zMinFlag) ? tDelta.z : 0;
     }
 
     return false;

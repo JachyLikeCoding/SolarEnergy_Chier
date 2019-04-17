@@ -1,4 +1,4 @@
-message("-------------Tool Test cmake begins-------------")
+message("----------Tool Test cmake begins-------------")
 
 cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
@@ -26,35 +26,10 @@ target_link_libraries(ToolTests argumentParser)
 include_directories("${CMAKE_SOURCE_DIR}/Tool/RandomNumberGenerator")
 target_link_libraries(ToolTests randomGenerator)
 
-#include_directories("${CMAKE_SOURCE_DIR}/Tool/ImageSaver")
-#target_link_libraries(ToolTests image_saver)
+include_directories("${CMAKE_SOURCE_DIR}/Tool/ImageSaver")
+target_link_libraries(ToolTests image_saver)
 
 include_directories("${CMAKE_SOURCE_DIR}/Tool/FileLoader")
 target_link_libraries(ToolTests regularExpressionTree)
 
-message("---------------Tool Test cmake ends----------------------")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-message("--------------Tool Test cmake ends--------------")
+message("----------Tool Test cmake ends----------------------")

@@ -10,13 +10,13 @@ my-build-release/
 .idea
 
 # Third-party files
-SolarEnergyRayTracingTests/lib
+Tests/lib
 Scene/json-develop
 
 # Output
 OutputFiles/
-SolarEnergyRayTracingTests/ToolTests/test_output
-SolarEnergyRayTracingTests/GenerateTemporaryOutput/CheckFocusFlatRectangleHelioResult/output_files
+Tests/ToolTests/test_output
+Tests/GenerateTemporaryOutput/CheckFocusFlatRectangleHelioResult/output_files
 
 # Input
 InputFiles/Delingha

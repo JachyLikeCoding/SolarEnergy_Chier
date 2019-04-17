@@ -1,4 +1,4 @@
-message("Scene cmake begins...")
+message("----------Scene cmake begins----------")
 
 # required cmake version
 cmake_minimum_required(VERSION 3.12)
@@ -35,6 +35,6 @@ add_subdirectory(json-develop)
 target_include_directories(datastructure PUBLIC json-develop/single_include)
 target_link_libraries(datastructure nlohmann_json::nlohmann_json)
 
-message("Scene cmake ends...")
+message("----------Scene cmake ends----------")
 
 message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")

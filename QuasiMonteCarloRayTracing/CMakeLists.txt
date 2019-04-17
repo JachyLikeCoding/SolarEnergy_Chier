@@ -1,4 +1,4 @@
-message("QMCRT construction begins...")
+message("----------QMCRT cmake begins----------")
 
 # required cmake version
 cmake_minimum_required(VERSION 3.12)
@@ -17,9 +17,4 @@ target_include_directories(datastructure PUBLIC "${CMAKE_SOURCE_DIR}/Scene")
 
 target_link_libraries(quasiMonteCarloRayTracing datastructure)
 
-message("QMCRT construction ends...")
-
-
-message("CUDA_NVCC_FLAGS is ${CUDA_NVCC_FLAGS}")
-message("CUDA_NVCC_FLAGS_RELEASE is ${CUDA_NVCC_FLAGS_RELEASE}")
-message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
+message("----------QMCRT cmake ends----------")

@@ -2,9 +2,13 @@
 // Created by feng on 19-4-15.
 //
 
+#include "check_cuda.h"
+#include "cuda_runtime.h"
 #include "global_function.cuh"
 #include "QuasiMonteCarloRayTracer.h"
-#include "check_cuda.h"
+#include "RectangleReceiverRectangleGridRayTracing.cuh"
+#include "RectangleGrid.cuh"
+
 
 
 void QuasiMonteCarloRayTracer::rayTracing(SolarScene *solarScene, int heliostat_id){
@@ -193,11 +197,4 @@ int QuasiMonteCarloRayTracer::setFlatRectangleHeliostatVertexs(float3 *&d_helios
 
     return int(subHeliostatVertexes.size());
 }
-
-
-
-
-
-
-
 

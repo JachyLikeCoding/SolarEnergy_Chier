@@ -13,7 +13,7 @@
 
 namespace rectGridDDA{
     template<typename T>
-    inline __host__ __device__ T absDivide(const T &denominator, const T &numerator){   //分母，分子
+    inline __host__ __device__ T absDivide(const T &denominator, const T &numerator){
         if(numerator <= Epsilon && numerator >= -Epsilon)
             return T(INT_MAX);
         return abs(denominator / numerator);
@@ -41,7 +41,7 @@ namespace rectGridDDA{
     /**
      * 3D-DDA
      */
-    __host__ __device__ bool collision(const float3 &origin, const float3 &dir, const RectGrid &rectGrid,
+    __host__ __device__ bool collision(const float3 &origin, const float3 &dir, const RectangleGrid &rectGrid,
                                        const float3 *d_subheliostat_vertexes,
                                        const HeliostatArgument &heliostatArgument);
 

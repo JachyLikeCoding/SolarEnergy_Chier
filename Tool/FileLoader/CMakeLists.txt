@@ -1,5 +1,5 @@
-message("----------------File loader cmake begins-----------------")
+message("----------File loader cmake begins-----------------")
 
 add_library(regularExpressionTree STATIC RegularExpressionTree.h RegularExpressionTree.cpp)
 
-message("----------------File loader cmake ends-----------------")
+message("----------File loader cmake ends-----------------")

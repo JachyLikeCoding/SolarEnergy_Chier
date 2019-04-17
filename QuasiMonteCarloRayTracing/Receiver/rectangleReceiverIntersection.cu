@@ -11,7 +11,7 @@ __device__ void rectangleReceiverIntersect::receiver_drawing(RectangleReceiver &
         return;
     }
 
-    // Step 2: Calculate the sun energy
+    // Step 2: Calculate the energy of the light
     float energy = calEnergy(t, dir, normal, factor);
 
     // Step 3: Add the energy to the intersect position
@@ -20,6 +20,6 @@ __device__ void rectangleReceiverIntersect::receiver_drawing(RectangleReceiver &
                              v * rectangleReceiver.getResolution().x);
     int address = row_col.x * rectangleReceiver.getResolution().x + row_col.y; // col_row.y + col_row.x * resolution.y
     float *image = rectangleReceiver.getDeviceImage();
-    atomicAdd(&(image[address]), energy);   //CUDA atomic原子操作 —— 在kernel程序中做统计累加， 需使用原子操作
+    atomicAdd(&(image[address]), energy);   //CUDA atomic
 
 }

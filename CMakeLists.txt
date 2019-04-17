@@ -8,9 +8,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
 find_package(CUDA REQUIRED)
 
 # Tool
+add_subdirectory(Tool/ArgumentParser)
 add_subdirectory(Tool/RandomNumberGenerator)
 add_subdirectory(Tool/FileLoader)
-add_subdirectory(Tool/ArgumentParser)
+add_subdirectory(Tool/ImageSaver)
 
 # Data Structure
 add_subdirectory(Scene)

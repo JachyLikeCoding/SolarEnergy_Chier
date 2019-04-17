@@ -41,18 +41,16 @@ __global__ void map_raytracing(SunrayArgument sunrayArgument, RectangleReceiver 
 
 
 
-void RectangleReceiverRectangleGridRayTracing( SunrayArgument &sunrayArgument,
-                                                RectangleReceiver *rectangleReceiver,
-                                                RectangleGrid *rectangleGrid,
-                                                HeliostatArgument *heliostatArgument,
-                                                float3 *d_subHeliostat_vertexes,
-                                                float factor ){
+void RectangleReceiverRectangleGridRayTracing(SunrayArgument &sunrayArgument, RectangleReceiver *rectangleReceiver,
+                                         RectangleGrid *rectGrid, HeliostatArgument &heliostatArgument,
+                                         float3 *d_subHeliostat_vertexes, float factor) {
     int nThreads = 512;
     dim3 nBlocks;
-    global_func::setThreadBlocks(nBlocks, nThreads, heliostatArgument->numberOfMicroHeliostats * sunrayArgument.numberOfLightsPerGroup, true);
-
+    global_func::setThreadBlocks(nBlocks, nThreads,
+                                  heliostatArgument.numberOfMicroHeliostats * sunrayArgument.numberOfLightsPerGroup,
+                                  true);
     map_raytracing << < nBlocks, nThreads >> >
-                                 (sunrayArgument, *rectangleReceiver, *rectangleGrid, heliostatArgument, d_subHeliostat_vertexes, factor);
+                                 (sunrayArgument, *rectangleReceiver, *rectGrid, heliostatArgument, d_subHeliostat_vertexes, factor);
 
     cudaDeviceSynchronize();
     checkCudaErrors(cudaGetLastError());

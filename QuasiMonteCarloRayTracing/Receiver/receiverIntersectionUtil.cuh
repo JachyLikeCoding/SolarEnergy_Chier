@@ -8,10 +8,9 @@
 #include "vector_arithmetic.cuh"
 
 /**
- *  大气衰减系数 ηaα：
-    ηaα  =  | 0.99331 − 1.176 · 10^ -4 ⋅ d + 1.97 ⋅ 10^ −8 ⋅ d^2 , d <= 1000
+ * ηaα  =  | 0.99331 − 1.176 · 10^ -4 ⋅ d + 1.97 ⋅ 10^ −8 ⋅ d^2 , d <= 1000
             | e^ -0.0001106 ⋅ d , d > 1000
- * @param d 发射点到接收器表面的距离， 单位：米
+ * @param d the distance between origin and receiver. /m
  * @return ηaα
  */
 
@@ -22,13 +21,7 @@ inline __host__ __device__ float eta_aAlpha(const float &d){
 }
 /**
  * Eray = (ID ⋅ cosφ ⋅ ρ ⋅ Shsub / Nc ⋅ Srsub ) ⋅ ηaα
-         ID 太阳光能量密度 单位 W / m^2
-         Shsub 和 Srsub 分别是微定日镜和像素的面积， 单位 m^2
-         φ 入射光方向与为表面法向之间的夹角
-         ρ 反射率， 在[ 0 , 1]区间内
-         Nc是一个光锥中光线的数目
-         ηaα 大气衰减系数
- * @param distance 发射点到接收器表面的距离
+ * @param distance
  * @param dir
  * @param normal
  * @param factor
