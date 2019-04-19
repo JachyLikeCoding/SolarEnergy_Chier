@@ -167,10 +167,10 @@ bool SceneProcessor::set_perturbation(Sunray &sunray) {
     RandomGenerator::gpu_Gaussian(d_gaussian_x, 0.0f, sceneConfiguration->getDisturb_std(), size);
     RandomGenerator::gpu_Gaussian(d_gaussian_z, 0.0f, sceneConfiguration->getDisturb_std(), size);
 
-//#ifdef SCENE_PROCESSOR_TEST_CPP
+#ifdef SCENE_PROCESSOR_TEST_CPP
     samplelights::draw_distribution(d_gaussian_x, size, -0.050f, 0.050f, "theta");
     samplelights::draw_distribution(d_gaussian_z, size, -0.050f, 0.050f, "phi");
-//#endif
+#endif
 
     //Step 4: (theta, phi) -> (x, y, z)
     int nThreads;
@@ -244,10 +244,10 @@ bool SceneProcessor::set_samplelights(Sunray &sunray) {
     cudaDeviceSynchronize();
     checkCudaErrors(cudaGetLastError());
 
-//#ifdef SCENE_PROCESSOR_TEST_CPP
+#ifdef SCENE_PROCESSOR_TEST_CPP
     samplelights::draw_distribution(d_theta, num_random, 0.0f, 0.0093f, "theta");
     samplelights::draw_distribution(d_phi, num_random, 0.0f, 1.0f, "phi");
-//#endif
+#endif
     float3 *d_samplelights = nullptr;
     cudaMalloc((void **) &d_samplelights, sizeof(float3) * num_random);
     samplelights::map_angle2xyz << < nBlocks, nThreads >> > (d_samplelights, d_theta, d_phi, num_random);

@@ -4,6 +4,7 @@
 //
 
 #include "RectangleReceiver.cuh"
+#include <stdexcept>
 
 void RectangleReceiver::CInit(int pixel_per_meter_for_receiver){
     pixel_length_ = 1.0f / float(pixel_per_meter_for_receiver);
@@ -86,8 +87,8 @@ void RectangleReceiver::Cset_world_vertex(){
 }
 
 void RectangleReceiver::Cset_resolution(int pixel_per_meter_for_receiver){
-    resolution_.x = int(size_.x * float(pixel_per_meter_for_receiver));
-    resolution_.y = int(size_.y * float(pixel_per_meter_for_receiver));
+    resolution_.x = size_.x * float(pixel_per_meter_for_receiver);
+    resolution_.y = size_.y * float(pixel_per_meter_for_receiver);
 }
 
 void RectangleReceiver::setFocusCenter(){

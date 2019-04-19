@@ -18,6 +18,9 @@ SolarScene::SolarScene() : loaded_from_file_(false), sunray(nullptr) {
     //init the random generator
     RandomGenerator::initSeed();
     RandomGenerator::initCudaRandGenerator();
+
+    // Allocate sunray
+    sunray = new Sunray();
 }
 
 SolarScene::~SolarScene() {
@@ -27,10 +30,9 @@ SolarScene::~SolarScene() {
 
 bool SolarScene::clear() {
     //1. Free memory on GPU
-    free_scene::gpu_free(receivers);    //free_scene : namespace in the "destroy.h"
     free_scene::gpu_free(grids);
     free_scene::gpu_free(sunray);
-
+    free_scene::gpu_free(receivers);    //free_scene : namespace in the "destroy.h"
     //2. Free memory on CPU
     free_scene::cpu_free(receivers);
     free_scene::cpu_free(grids);
@@ -84,24 +86,24 @@ float SolarScene::getGroundLength() const{
     return ground_length_;
 }
 
-void SolarScene::setGroundLength(float ground_length){
-    ground_length_ = ground_length;
+void SolarScene::setGroundLength(float ground_length_){
+    SolarScene::ground_length_ = ground_length_;
 }
 
 float SolarScene::getGroundWidth() const{
     return ground_width_;
 }
 
-void SolarScene::setGroundWidth(float ground_width){
-    ground_width_ = ground_width;
+void SolarScene::setGroundWidth(float ground_width_){
+    SolarScene::ground_width_ = ground_width_;
 }
 
 int SolarScene::getGridNum() const{
     return grid_num_;
 }
 
-void SolarScene::setGridNum(int grid_num){
-    grid_num_ = grid_num;
+void SolarScene::setGridNum(int grid_num_){
+    SolarScene::grid_num_ = grid_num_;
 }
 
 
@@ -110,5 +112,5 @@ bool SolarScene::getLoaded_from_file() const{
 }
 
 void SolarScene::SetLoaded_from_file(bool loaded_from_file){
-    loaded_from_file_ = loaded_from_file;
+    SolarScene::loaded_from_file_ = loaded_from_file;
 }

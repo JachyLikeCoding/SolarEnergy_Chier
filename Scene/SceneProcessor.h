@@ -28,10 +28,9 @@ public:
 
 
 private:
-    SceneConfiguration *sceneConfiguration;
     bool set_perturbation(Sunray &sunray);
     bool set_samplelights(Sunray &sunray);
-
+    SceneConfiguration *sceneConfiguration;
 };
 
 

@@ -7,10 +7,23 @@
 #include "check_cuda.h"
 #include "global_function.cuh"
 
+Receiver::~Receiver() {
+    if(d_image_)
+        d_image_ = nullptr;
+}
+
+void Receiver::CClear(){
+    if(d_image_){
+        checkCudaErrors(cudaFree(d_image_));
+        d_image_ = nullptr;
+    }
+}
+
 /**
   * Allocate the final image matrix.
   */
 void Receiver::Calloc_image(){
+    printf("----------------Calloc image---------------------------image size = %d\n",resolution_.x * resolution_.y);
     checkCudaErrors(cudaMalloc((void **) &d_image_, sizeof(float) * resolution_.x * resolution_.y));
 }
 
@@ -31,17 +44,6 @@ void Receiver::Cclean_image_content(){
     h_clean_receiver = nullptr;
 }
 
-Receiver::~Receiver() {
-    if(d_image_)
-        d_image_ = nullptr;
-}
-
-void Receiver::CClear(){
-    if(d_image_){
-        checkCudaErrors(cudaFree(d_image_));
-        d_image_ = nullptr;
-    }
-}
 
 /**
 * Getters and setters of attributes for receiver object.
@@ -88,12 +90,4 @@ void Receiver::setSurfaceIndex(int surface_index){
 
 float Receiver::getPixelLength() const{
     return pixel_length_;
-}
-
-float *Receiver::getDeviceImage() const{
-    return d_image_;
-}
-
-int2 Receiver::getResolution() const{
-    return resolution_;
 }

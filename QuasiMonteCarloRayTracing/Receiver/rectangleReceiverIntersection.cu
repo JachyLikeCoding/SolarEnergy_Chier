@@ -3,6 +3,7 @@
 //
 #include "rectangleReceiverIntersection.cuh"
 
+
 __device__ void rectangleReceiverIntersect::receiver_drawing(RectangleReceiver &rectangleReceiver, const float3 &origin,
                                                              const float3 &dir, const float3 &normal, float factor) {
     // Step 1: Intersect with receiver
@@ -16,8 +17,7 @@ __device__ void rectangleReceiverIntersect::receiver_drawing(RectangleReceiver &
 
     // Step 3: Add the energy to the intersect position
     // Intersect position
-    int2 row_col = make_int2(u * rectangleReceiver.getResolution().y,
-                             v * rectangleReceiver.getResolution().x);
+    int2 row_col = make_int2(u * rectangleReceiver.getResolution().y, v * rectangleReceiver.getResolution().x);
     int address = row_col.x * rectangleReceiver.getResolution().x + row_col.y; // col_row.y + col_row.x * resolution.y
     float *image = rectangleReceiver.getDeviceImage();
     atomicAdd(&(image[address]), energy);   //CUDA atomic

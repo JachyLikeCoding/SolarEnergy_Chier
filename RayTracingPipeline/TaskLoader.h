@@ -5,11 +5,11 @@
 #ifndef SOLARENERGY_CHIER_TASKLOADER_H
 #define SOLARENERGY_CHIER_TASKLOADER_H
 
-#include <iostream>
+#include <vector>
 #include <unordered_set>
 #include <string>
+#include <SolarScene.h>
 #include <bits/unordered_set.h>
-#include "SolarScene.h"
 
 class TaskLoader{
 public:

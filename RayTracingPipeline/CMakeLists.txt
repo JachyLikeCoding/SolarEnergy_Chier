@@ -4,12 +4,12 @@ message("----------Ray Tracing Pipeline begins----------")
 cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
 
-#Generate lib
-file(GLOB_RECURSE CURRENT_HEADERS *.h)
-file(GLOB_RECURSE CURRENT_SOURCES *.cpp)
+# Generate lib
+file(GLOB_RECURSE CURRENT_HEADERS  *.h)
+file(GLOB_RECURSE CURRENT_SOURCES  *.cpp)
 cuda_add_library(rayTracingPipeline STATIC ${CURRENT_HEADERS} ${CURRENT_SOURCES})
 
-#Add datastructure lib
+# Add datastructure lib
 target_include_directories(rayTracingPipeline PUBLIC "${CMAKE_SOURCE_DIR}/Util")
 target_include_directories(rayTracingPipeline PUBLIC "${CMAKE_SOURCE_DIR}/Scene")
 include_directories("${CMAKE_SOURCE_DIR}/QuasiMonteCarloRayTracing")

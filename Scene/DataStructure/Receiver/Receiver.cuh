@@ -10,6 +10,25 @@
 
 class Receiver{
 public:
+    /**
+     * Initialize the parameters.
+     */
+    virtual void CInit(int pixel_per_meter_for_receiver) = 0;
+    virtual void Cset_resolution(int pixel_per_meter_for_receiver) = 0;
+    virtual float3 getFocusCenter(const float3 &heliostat_position) = 0;
+
+    /**
+     * Allocate the final image matrix.
+     */
+    void Calloc_image();
+
+    /**
+     * Clean the final image matrix.
+     */
+    void Cclean_image_content();
+
+    void CClear();
+
     __device__ __host__ Receiver() : d_image_(nullptr){}
 
     __device__ __host__ Receiver(const Receiver &rec){
@@ -25,24 +44,7 @@ public:
 
     __device__ __host__ ~Receiver();
 
-    /**
-     * Initialize the parameters.
-     */
-    virtual void CInit(int pixel_per_meter_for_receiver) = 0;
-    virtual void Cset_resolution(int pixel_per_meter_for_receiver) = 0;
-    virtual float3 getFocusCenter(const float3 &heliostat_position) = 0;
 
-    /**
-     * Allocate the final image matrix.
-     */
-    void Calloc_image();
-
-     /**
-      * Clean the final image matrix.
-      */
-    void Cclean_image_content();
-
-    void CClear();
 
     /**
     * Getters and setters of attributes for receiver object.
@@ -64,9 +66,13 @@ public:
 
     float getPixelLength() const;
 
-    __host__ __device__ float *getDeviceImage() const;
+    __host__ __device__ float *getDeviceImage() const {
+        return d_image_;
+    }
 
-    __host__ __device__ int2 getResolution() const;
+    __host__ __device__ int2 getResolution() const {
+        return resolution_;
+    }
 
 protected:
     int type_;

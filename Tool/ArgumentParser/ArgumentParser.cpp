@@ -14,7 +14,7 @@
 void ArgumentParser::initialize() {
     configuration_path = "/home/feng/SolarEnergy_Chier/InputFiles/example/example_configuration.json";
     scene_path = "/home/feng/SolarEnergy_Chier/InputFiles/example/example_scene.scn";
-    output_path = "/home/feng/SolarEnergy_Chier/OutputFiles/";
+    output_path = "/home/feng/SolarEnergy_Chier/OutputFiles/example_output";
     heliostat_index_load_path = "/home/feng/SolarEnergy_Chier/InputFiles/example/tast_heliostats_index.txt";
 }
 
@@ -61,12 +61,13 @@ bool ArgumentParser::parser(int argc, char **argv){
     int c;
     optind = 1; // 'optind' is the index of next element to be processed
                 // The caller should set it as 1 to restart scanning of the next argv
-    while((c = getopt_long(argc, argv, "c:s:o:h", long_options, &option_index)) != -1){
+
+    while((c = getopt_long(argc, argv, "c:s:o:h:", long_options, &option_index)) != -1){
         if(c == '?'){
             // unknown arguments
+            printf("\nUnknown arguments.");
             return false;
         }
-
         if(c == 'c'){
             configuration_path = optarg;
             printf("\noption -c/configuration_path with value '%s'", optarg);
@@ -79,6 +80,8 @@ bool ArgumentParser::parser(int argc, char **argv){
         }else if(c == 'h'){
             heliostat_index_load_path = optarg;
             printf("\noption -h/heliostat_index_path with value '%s'", optarg);
+        }else{
+            printf("\nUnknown arguments.");
         }
     }
 

@@ -103,17 +103,15 @@ int RectangleHelio::CGetDiscreteMicroHelioOriginsAndNormals(float3 *&d_microheli
     //Map micro-heliostat center  and normal in world position.
     if(d_microhelio_centers == nullptr){
         checkCudaErrors(cudaMalloc((void **) &d_microhelio_centers, sizeof(float3) * map_size));
-        printf("cudaMalloc d_microhelio_centers....\n");
     }
     if(d_microhelio_normals == nullptr){
         checkCudaErrors(cudaMalloc((void **) &d_microhelio_normals, sizeof(float3) * map_size));
-        printf("cudaMalloc d_microhelio_normals....\n");
     }
 
     rectangle_heliostat::map_microhelio_center_and_normal << < nBlocks, nThreads >> >
             (d_microhelio_centers, d_microhelio_normals, normal_, size_, row_col_, sub_row_col, pixel_length_, gap_, pos_, map_size);
     printf("map_size: ");
-    printf("%d", map_size);
+    printf("%d\t", map_size);
     return map_size;
 }
 

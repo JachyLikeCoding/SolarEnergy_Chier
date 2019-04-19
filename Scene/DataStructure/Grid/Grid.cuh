@@ -26,13 +26,17 @@ public:
     int getGridType() const;
     void setGridType(int type_);
 
-    __device__ __host__ float3 getPosition() const;
+    __device__ __host__ float3 getPosition() const{
+        return pos_;
+    }
     void setPosition(float3 pos_);
 
     float3 getSize() const;
     void setSize(float3 size_);
 
-    __device__ __host__ float3 getInterval() const;
+    __device__ __host__ float3 getInterval() const{
+        return interval_;
+    }
     void setInterval(float3 interval_);
 
     int getHeliostatType() const;

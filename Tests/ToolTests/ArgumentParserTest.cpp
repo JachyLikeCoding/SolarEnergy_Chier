@@ -84,14 +84,6 @@ TEST_F(ArgumentParserFixture, parserGoodExample){
 }
 
 
-TEST_F(ArgumentParserFixture, parserGoodExampleWithEmptyOptions) {
-    char *argv[] = {
-            executable_file_name
-    };
-    int argc = sizeof(argv) / sizeof(argv[0]);
-    EXPECT_TRUE(argumentParser->parser(argc, argv));
-}
-
 
 TEST_F(ArgumentParserFixture, parserBadExample_nonMatchSuffix) {
     char nonMatchSuffixConfigurationPath[] = "example_configuration";

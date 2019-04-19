@@ -7,8 +7,7 @@
 
 // Set sunray, grids, receivers, heliostats
 bool SceneProcessor::processScene(SolarScene *solarScene){
-    return set_sunray_content(*solarScene->getSunray()) &&
-            set_grid_receiver_heliostat_content(solarScene->getGrids(), solarScene->getReceivers(), solarScene->getHeliostats());
+    return set_sunray_content(*solarScene->getSunray()) && set_grid_receiver_heliostat_content(solarScene->getGrids(), solarScene->getReceivers(), solarScene->getHeliostats());
 }
 
 bool SceneProcessor::set_grid_receiver_heliostat_content(std::vector<Grid *> &grids,
@@ -43,12 +42,13 @@ bool SceneProcessor::set_sunray_content(Sunray &sunray){
     if(!sceneConfiguration){
         throw std::runtime_error("No scene configuration. Please load it first before process scene.");
     }
+
+    sunray.setSunDirection(sceneConfiguration->getSun_dir());
     sunray.setCSR(sceneConfiguration->getCsr());
     sunray.setDNI(sceneConfiguration->getDni());
-    sunray.setSunDirection(sceneConfiguration->getSun_dir());
-    sunray.setReflectiveRate(sceneConfiguration->getReflected_rate());
     sunray.setNumOfSunshapeGroups(sceneConfiguration->getNum_sunshape_groups());
     sunray.setNumOfSunshapeLightsPerGroup(sceneConfiguration->getNum_sunshape_lights_per_group());
+    sunray.setReflectiveRate(sceneConfiguration->getReflected_rate());
 
     return set_perturbation(sunray) && set_samplelights(sunray);
 }
