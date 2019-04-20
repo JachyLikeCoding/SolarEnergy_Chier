@@ -79,17 +79,3 @@ TEST_F(TaskLoaderFixture, loadExampleWithMoreThanNIndexes) {
     taskLoader->loadRayTracingHeliostatIndex(moreThanN_path, *solarScene);
     EXPECT_FALSE(taskLoader->loadRayTracingHeliostatIndex(moreThanN_path, *solarScene));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
