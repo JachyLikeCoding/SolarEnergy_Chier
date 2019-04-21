@@ -80,10 +80,19 @@ void RectangleReceiver::Cset_local_vertex(){
 
 void RectangleReceiver::Cset_world_vertex(){
         normal_ = normalize(normal_);
-        for(float3 vertex : rect_vertexes_){
-            vertex = global_func::rotateY(vertex, local_normal_, normal_);
-            vertex = global_func::translate(vertex, pos_);
-        }
+//        for(float3 vertex : rect_vertexes_){
+//            vertex = global_func::rotateY(vertex, local_normal_, normal_);
+//            vertex = global_func::translate(vertex, pos_);
+//        }
+        rect_vertexes_[0] = global_func::rotateY(rect_vertexes_[0], local_normal_, normal_);
+        rect_vertexes_[1] = global_func::rotateY(rect_vertexes_[1], local_normal_, normal_);
+        rect_vertexes_[2] = global_func::rotateY(rect_vertexes_[2], local_normal_, normal_);
+        rect_vertexes_[3] = global_func::rotateY(rect_vertexes_[3], local_normal_, normal_);
+
+        rect_vertexes_[0] = global_func::translate(rect_vertexes_[0], pos_);
+        rect_vertexes_[1] = global_func::translate(rect_vertexes_[1], pos_);
+        rect_vertexes_[2] = global_func::translate(rect_vertexes_[2], pos_);
+        rect_vertexes_[3] = global_func::translate(rect_vertexes_[3], pos_);
 }
 
 void RectangleReceiver::Cset_resolution(int pixel_per_meter_for_receiver){

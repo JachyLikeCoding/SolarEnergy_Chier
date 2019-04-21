@@ -7,6 +7,7 @@
 #include "global_function.cuh"
 #include "QuasiMonteCarloRayTracer.h"
 #include "RectangleReceiverRectangleGridRayTracing.cuh"
+#include "CylinderReceiverRectangleGridRayTracing.cuh"
 #include "RectangleGrid.cuh"
 
 
@@ -46,6 +47,7 @@ void QuasiMonteCarloRayTracer::rayTracing(SolarScene *solarScene, int heliostat_
      HeliostatArgument heliostatArgument = generateHeliostatArgument(solarScene, heliostat_id);
 
      int receiverGridCombinationIndex = receiverGridCombination(receiver->getType(), grid->getGridType());
+     
      //receiverGridCombinationIndex = receiver_type * 10 + grid_type;
      switch(receiverGridCombinationIndex){
          case 0:{
@@ -63,6 +65,14 @@ void QuasiMonteCarloRayTracer::rayTracing(SolarScene *solarScene, int heliostat_
          }
          case 10:{
             /** CylinderReceiver & RectangleGrid*/
+             auto cylinderReceiver = dynamic_cast<CylinderReceiver *>(receiver);
+             auto rectangleGrid = dynamic_cast<RectangleGrid *>(grid);
+
+             float ratio = heliostat->getPixelLength() / receiver->getPixelLength();
+             float factor = sunray->getDNI() * ratio * ratio * sunray->getReflectiveRate()
+                            / float(sunray->getNumOfSunshapeLightsPerGroup());
+             CylinderReceiverRectangleGridRayTracing(sunrayArgument, cylinderReceiver, rectangleGrid,
+                                                      heliostatArgument, d_subHeliostat_vertexes, factor);
 
              break;
          }
@@ -186,7 +196,7 @@ int QuasiMonteCarloRayTracer::setFlatRectangleHeliostatVertexs(float3 *&d_helios
         heliostats[i]->CGetSubHeliostatVertexes(subHeliostatVertexes);
     }
 
-    auto *h_subHeliostat_vertexes = new float3[subHeliostatVertexes.size()];
+    float3 *h_subHeliostat_vertexes = new float3[subHeliostatVertexes.size()];
     for(int i = 0; i < subHeliostatVertexes.size(); ++i){
         h_subHeliostat_vertexes[i] = subHeliostatVertexes[i];
     }
@@ -195,6 +205,6 @@ int QuasiMonteCarloRayTracer::setFlatRectangleHeliostatVertexs(float3 *&d_helios
     delete[] h_subHeliostat_vertexes;
     h_subHeliostat_vertexes = nullptr;
 
-    return int(subHeliostatVertexes.size());
+    return subHeliostatVertexes.size();
 }
 

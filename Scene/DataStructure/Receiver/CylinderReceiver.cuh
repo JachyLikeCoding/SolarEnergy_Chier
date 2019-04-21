@@ -39,7 +39,7 @@ public:
     __device__ __host__ bool GIntersect(const float3 &orig, const float3 &dir, float &t, float &u, float &v){
         //If the origin is inside the cylinder, it won't intersect with it
         if(isInsideCylinder(orig)){
-            printf("The origin is inside the cylinder!!!\n");
+            //printf("The origin is inside the cylinder!!!\n");
             return false;
         }
 
@@ -61,9 +61,9 @@ public:
 
         // calculate intersection point
         float3 intersect_pos = t * dir + orig;
-        std::cout << "intersect_pos: ( " << intersect_pos.x << ", " << intersect_pos.y << ", " << intersect_pos.z << ")\n";
+        //std::cout << "intersect_pos: ( " << intersect_pos.x << ", " << intersect_pos.y << ", " << intersect_pos.z << ")\n";
         u = (intersect_pos.y - pos_.y) / size_.y + 0.5f;
-        std::cout << "u = " << u << "\n";
+        //std::cout << "u = " << u << "\n";
         // intersect_pos.y should belong to the range [0, h], h = size_.y
         if(u < 0.0f || u > 1.0f){
             return false;
@@ -80,11 +80,11 @@ public:
         }
 
         v = acosf(intersect_origin_dir.x) / (2 * M_PI);
-        std::cout << "v1 = " << v << "\n";
+        //std::cout << "v1 = " << v << "\n";
         if(intersect_origin_dir.y < 0){
             v = 1 - v;
         }
-        std::cout << "v2 = " << v << "\n";
+        //std::cout << "v2 = " << v << "\n";
         return true;
     }
 

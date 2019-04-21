@@ -10,7 +10,7 @@ norm	0.000000 	0.000000 	1.000000
 face	0
 end
 
-# Grid attributes
+# Grid2 attributes
 Grid	0
 pos		-15.00000	-4.500000	0.0000000
 size	20.000000	9.0000000	24.000000

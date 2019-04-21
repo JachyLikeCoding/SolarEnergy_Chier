@@ -11,9 +11,9 @@ __global__ void map_raytracing(SunrayArgument sunrayArgument, RectangleReceiver 
         return;
     }
 
-    // Step 1: whether the incident light is shadowed by other heliostats.  判断入射光
-    int address = ( heliostatArgument.d_microHelio_groups[myId / sunrayArgument.numberOfLightsPerGroup] + myId % sunrayArgument.numberOfLightsPerGroup )
-                        % sunrayArgument.pool_size;
+    // Step 1: whether the incident light is shadowed by other heliostats.
+    int address = ( heliostatArgument.d_microHelio_groups[myId / sunrayArgument.numberOfLightsPerGroup] +
+            myId % sunrayArgument.numberOfLightsPerGroup ) % sunrayArgument.pool_size;
     float3 dir = global_func::local2world_rotate(sunrayArgument.d_samplelights[address], -sunrayArgument.sunray_direction);
     float3 origin = heliostatArgument.d_microHelio_origins[myId / sunrayArgument.numberOfLightsPerGroup];
 
@@ -21,20 +21,21 @@ __global__ void map_raytracing(SunrayArgument sunrayArgument, RectangleReceiver 
         return;
     }
 
-    // Step 2: whether the reflect light is shadowed by other heliostats. 判断反射光
+    // Step 2: whether the reflect light is shadowed by other heliostats.
     float3 normal = heliostatArgument.d_microHelio_normals[myId / sunrayArgument.numberOfLightsPerGroup];
-    address = (heliostatArgument.d_microHelio_groups[(myId / sunrayArgument.numberOfLightsPerGroup + 1) % sunrayArgument.pool_size] + myId % sunrayArgument.numberOfLightsPerGroup)
-                    % sunrayArgument.pool_size;
+    address = (heliostatArgument.d_microHelio_groups[(myId / sunrayArgument.numberOfLightsPerGroup + 1) %
+                                                     sunrayArgument.pool_size] +
+                    myId % sunrayArgument.numberOfLightsPerGroup) % sunrayArgument.pool_size;
     normal = global_func::local2world_rotate(sunrayArgument.d_perturbations[address], normal);
     normal = normalize(normal);
 
-    dir = normalize(reflect(-dir, origin));
+    dir = normalize(reflect(-dir, normal));
 
     if(rectGridDDA::collision(origin, dir, rectangleGrid, d_subheliostat_vertexes, heliostatArgument)){
         return;
     }
 
-    // Step 3: intersect with receiver. 和接收器求交，计算能量
+    // Step 3: intersect with receiver and calculate energy.
     rectangleReceiverIntersect::receiver_drawing(rectangleReceiver, origin, dir, normal, factor);
 
 }

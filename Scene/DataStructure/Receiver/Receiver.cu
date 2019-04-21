@@ -23,7 +23,7 @@ void Receiver::CClear(){
   * Allocate the final image matrix.
   */
 void Receiver::Calloc_image(){
-    printf("----------------Calloc image---------------------------image size = %d\n",resolution_.x * resolution_.y);
+    printf("----------------Calloc image---------------------------\nimage size = %d\n",resolution_.x * resolution_.y);
     checkCudaErrors(cudaMalloc((void **) &d_image_, sizeof(float) * resolution_.x * resolution_.y));
 }
 

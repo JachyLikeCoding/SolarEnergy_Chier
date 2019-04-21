@@ -6,6 +6,7 @@
 
 #include "SceneLoader.h"
 #include "RectangleReceiver.cuh"
+#include "CylinderReceiver.cuh"
 #include "RectangleHelio.cuh"
 #include "RectangleGrid.cuh"
 
@@ -108,8 +109,9 @@ void SceneLoader::add_receiver(SolarScene *solarScene, std::istream &stringstrea
         case 0:
             receiver = new RectangleReceiver();
             break;
-        //case 1:
-            //receiver = new CylinderReceiver();
+        case 1:
+            receiver = new CylinderReceiver();
+            break;
         default:
             throw std::runtime_error("Receiver type has not defined.\n");
     }

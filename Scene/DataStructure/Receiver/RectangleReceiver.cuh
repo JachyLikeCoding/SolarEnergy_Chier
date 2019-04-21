@@ -15,9 +15,13 @@ public:
     __device__ __host__ RectangleReceiver(){}
 
     RectangleReceiver(const RectangleReceiver &rectangle_receiver) : Receiver(rectangle_receiver){
-        for(int i = 0; i < 4; ++i){
-            rect_vertexes_[i] = rectangle_receiver.getRectangleVertex(i);
-        }
+//        for(int i = 0; i < 4; ++i){
+//            rect_vertexes_[i] = rectangle_receiver.getRectangleVertex(i);
+//        }
+        rect_vertexes_[0] = rectangle_receiver.getRectangleVertex(0);
+        rect_vertexes_[1] = rectangle_receiver.getRectangleVertex(1);
+        rect_vertexes_[2] = rectangle_receiver.getRectangleVertex(2);
+        rect_vertexes_[3] = rectangle_receiver.getRectangleVertex(3);
         local_normal_ = rectangle_receiver.getLocalNormal();
 
     }
