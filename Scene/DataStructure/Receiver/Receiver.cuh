@@ -75,7 +75,7 @@ public:
     }
 
 protected:
-    int type_;
+    int type_;                  //rectangle receiver:0   cylinder receiver:1
     float3 normal_;
     float3 pos_;
     float3 size_;
