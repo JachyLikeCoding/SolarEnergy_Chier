@@ -1,0 +1,26 @@
+# Ground Boundary
+ground 	1024.000000	1024.000000
+ngrid	1
+
+# Receiver attributes
+Recv 	0
+pos		0.000000 	100.50000 	0.000000
+size	14.000000 	12.000000 	3.000000
+norm	1.000000 	0.000000 	0.000000
+face	0
+end
+
+# Grid attributes
+Grid	0
+pos		0.000000	0.0000000	0.0000000
+size	200.000000	100.00000	200.000000
+inter	20.000000	20.0000000	20.0000000
+n		1
+type	0
+end
+
+# Heliostat 1 : the third heliostat in PS-10-typical
+gap     0.1000000   0.1000000
+matrix  4           7
+helio	138.596497  15.404208    139.830505
+		12.8400000 	0.1000000	9.450000

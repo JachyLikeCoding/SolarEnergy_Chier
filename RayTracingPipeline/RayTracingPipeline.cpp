@@ -53,7 +53,7 @@ void RayTracingPipeline::rayTracing(int argc, char **argv) {
     vector<float> max_values;
     vector<float> sum_values;
 
-    for(int i = 0 ; i < 100; ++i){
+    for(int i = 0 ; i < 1; ++i){
 
         // 3. Ray tracing (could be parallel)
         std::cout << "\n3. Start ray tracing..." << std::endl;
@@ -121,7 +121,7 @@ float RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pat
     std::cout << "\treceiver resolution: (" << resolution.y << ", " << resolution.x << ").\n";
     global_func::gpu2cpu(h_array, d_array, resolution.x * resolution.y);
     float max_value = ImageSaver::saveText(pathAndName + "_receiver_before_smooth.txt" , resolution.y, resolution.x, h_array);
-/*
+
     auto start_time = std::chrono::high_resolution_clock::now();
     //Image smooth:
     ImageSmoother::image_smooth(d_array, 5, 0.05, resolution.x, resolution.y);          //TODO: TEST diff number here
@@ -131,7 +131,7 @@ float RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pat
 
     global_func::gpu2cpu(h_array, d_array, resolution.x * resolution.y);
     max_value = ImageSaver::saveText(pathAndName + "_receiver_after_smooth.txt", resolution.y, resolution.x, h_array);
-*/
+
 
     // clear
     delete(h_array);
