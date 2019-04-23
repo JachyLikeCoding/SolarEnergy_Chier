@@ -11,6 +11,7 @@
 #include "global_function.cuh"
 #include "QuasiMonteCarloRayTracer.h"
 #include "ImageSaver/ImageSaver.h"
+#include "Smoother/ImageSmoother.cuh"
 
 void RayTracingPipeline::rayTracing(int argc, char **argv) {
     // 1. Pass argument
@@ -38,61 +39,104 @@ void RayTracingPipeline::rayTracing(int argc, char **argv) {
     std::cout << "\t2.3 Process scene." << std::endl;
     SceneProcessor sceneProcessor(sceneConfiguration);
 
-    sceneProcessor.processScene(solarScene);    //-------------------------has bug
+    sceneProcessor.processScene(solarScene);
     //  2.4 load heliostats indexes
     std::cout << "\t2.4 Load heliostats indexes from '" << argumentParser->getHeliostatIndexLoadPath() << "'."
               << std::endl;
     TaskLoader taskLoader;
     taskLoader.loadRayTracingHeliostatIndex(argumentParser->getHeliostatIndexLoadPath(), *solarScene);
 
-    // 3. Ray tracing (could be parallel)
-    std::cout << "\n3. Start ray tracing..." << std::endl;
-    QuasiMonteCarloRayTracer QMCRTracer;
 
-    auto start_time = std::chrono::high_resolution_clock::now();
-    auto end_time = start_time;
-    long long elapsed;
+    /**
+     * Test 100 times here:
+     */
+    vector<float> max_values;
+    vector<float> sum_values;
 
-    for (int heliostat_index : taskLoader.getHeliostatIndexesArray()) {
-        try {
-            // Count the time
-            start_time = std::chrono::high_resolution_clock::now();
+    for(int i = 0 ; i < 100; ++i){
 
-            QMCRTracer.rayTracing(solarScene, heliostat_index);
+        // 3. Ray tracing (could be parallel)
+        std::cout << "\n3. Start ray tracing..." << std::endl;
+        QuasiMonteCarloRayTracer QMCRTracer;
 
-            end_time = std::chrono::high_resolution_clock::now();
-            elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        auto start_time = std::chrono::high_resolution_clock::now();
+        auto end_time = start_time;
+        long long elapsed;
 
-            std::cout << "\tNo." << heliostat_index << " heliostats took " << elapsed << " microseconds." << std::endl;
+        for (int heliostat_index : taskLoader.getHeliostatIndexesArray()) {
+            try {
+                // Count the time
+                start_time = std::chrono::high_resolution_clock::now();
 
-        } catch (exception e) {
-            std::cerr << "  Failure in No." << heliostat_index << " heliostat ray tracing." << std::endl;
+                QMCRTracer.rayTracing(solarScene, heliostat_index);
+
+                end_time = std::chrono::high_resolution_clock::now();
+                elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+
+                std::cout << "\tNo." << heliostat_index << " heliostats took " << elapsed << " microseconds to ray tracing." << std::endl;
+
+            } catch (exception e) {
+                std::cerr << "  Failure in No." << heliostat_index << " heliostat ray tracing." << std::endl;
+            }
         }
+
+        float max_value;
+        // 4. Save results
+        std::cout << "\n4. Save results in '" << argumentParser->getOutputPath() << "' directory." << std::endl;
+        for (int receiver_index : taskLoader.getReceiverIndexesArray()) {
+            std::cout << "------Saving No." << receiver_index << " receiver------" << std::endl;
+            // Choose to save No.0 receiver max values.
+            if(receiver_index == 0){
+                max_value = saveReceiverResult(solarScene->getReceivers()[receiver_index],
+                                               argumentParser->getOutputPath() + std::to_string(receiver_index),
+                                               receiver_index);
+            }else{
+                saveReceiverResult(solarScene->getReceivers()[receiver_index],
+                                   argumentParser->getOutputPath() + std::to_string(receiver_index),
+                                   receiver_index);
+            }
+
+            solarScene->getReceivers()[receiver_index]->Cclean_image_content();
+        }
+
+        max_values.push_back(max_value);
+
     }
 
-    // 4. Save results
-    std::cout << "\n4. Save results in '" << argumentParser->getOutputPath() << "' directory." << std::endl;
-    for (int receiver_index : taskLoader.getReceiverIndexesArray()) {
-        std::cout << "  Saving No." << receiver_index << " receiver." << std::endl;
-        saveReceiverResult(solarScene->getReceivers()[receiver_index],
-                           argumentParser->getOutputPath() + std::to_string(receiver_index) + "_receiver.txt");
+    std::cout << "max_values====================" << std::endl;
+    for(float max_value : max_values){
+        std::cout << max_value << ",";
     }
+    std::cout << std::endl;
 
     // 5. Clean up the scene
     solarScene->clear();
 }
 
 
-void RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pathAndName) {
+float RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pathAndName, int receiverIndex) {
     int2 resolution = receiver->getResolution();
     float *h_array = nullptr;
-    float *d_array = receiver->getDeviceImage();
-    std::cout << " resolution: (" << resolution.y << ", " << resolution.x << ").";
+    float *d_array = receiver->getDeviceImage();    // Before smooth
+    std::cout << "\treceiver resolution: (" << resolution.y << ", " << resolution.x << ").\n";
     global_func::gpu2cpu(h_array, d_array, resolution.x * resolution.y);
-    ImageSaver::saveText(pathAndName, resolution.y, resolution.x, h_array);
+    float max_value = ImageSaver::saveText(pathAndName + "_receiver_before_smooth.txt" , resolution.y, resolution.x, h_array);
+/*
+    auto start_time = std::chrono::high_resolution_clock::now();
+    //Image smooth:
+    ImageSmoother::image_smooth(d_array, 5, 0.05, resolution.x, resolution.y);          //TODO: TEST diff number here
+    auto end_time = std::chrono::high_resolution_clock::now();
+    long long elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+    std::cout << "\t[Smooth time]:  " << elapsed << " microseconds." << std::endl;
+
+    global_func::gpu2cpu(h_array, d_array, resolution.x * resolution.y);
+    max_value = ImageSaver::saveText(pathAndName + "_receiver_after_smooth.txt", resolution.y, resolution.x, h_array);
+*/
 
     // clear
     delete(h_array);
     h_array = nullptr;
     d_array = nullptr;
+
+    return max_value;
 }

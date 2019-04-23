@@ -9,7 +9,7 @@
 
 class ImageSaver{
 public:
-    static void saveText(std::string filename, int height, int width, float *h_data, int precision = 2, int rows_package = 10);
+    static float saveText(std::string filename, int height, int width, float *h_data, int precision = 2, int rows_package = 10);
 };
 
 

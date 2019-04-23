@@ -13,7 +13,7 @@ public:
     static void rayTracing(int argc, char *argv[]);
 
 private:
-    static void saveReceiverResult(Receiver *receiver, std::string pathAndName);
+    static float saveReceiverResult(Receiver *receiver, std::string pathAndName, int receiverIndex);
 };
 
 

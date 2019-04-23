@@ -1,0 +1,18 @@
+{
+  "sun_dir": [
+    0.57677749827947256,
+    -0.80768127066332496,
+    -0.12238742785984998
+  ],
+  "csr": 0.1,
+  "dni": 1000.0,
+  "num_of_sunshape_groups": 128,
+  "num_per_sunshape_group": 1024,
+  "inverse_transform_sampling_groups": 64,
+
+  "receiver_pixel_length": 0.1,
+
+  "helio_disturb_std": 0.001,
+  "helio_reflected_rate": 0.88,
+  "helio_pixel_length": 0.05
+}

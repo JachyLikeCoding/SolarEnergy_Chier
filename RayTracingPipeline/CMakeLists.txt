@@ -17,7 +17,7 @@ include_directories("${CMAKE_SOURCE_DIR}/Tool")
 
 
 # Set Libs
-set(EXTRA_LIBS ${EXTRA_LIBS} argumentParser image_saver quasiMonteCarloRayTracing datastructure)
+set(EXTRA_LIBS ${EXTRA_LIBS} argumentParser image_saver image_smoother quasiMonteCarloRayTracing datastructure)
 target_link_libraries(rayTracingPipeline ${EXTRA_LIBS})
 
 message("----------Ray Tracing Pipeline ends----------")

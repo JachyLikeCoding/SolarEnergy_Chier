@@ -12,6 +12,8 @@ add_subdirectory(Tool/ArgumentParser)
 add_subdirectory(Tool/RandomNumberGenerator)
 add_subdirectory(Tool/FileLoader)
 add_subdirectory(Tool/ImageSaver)
+add_subdirectory(Tool/HeliostatIndexGenerator)
+add_subdirectory(Tool/Smoother)
 
 # Data Structure
 add_subdirectory(Scene)

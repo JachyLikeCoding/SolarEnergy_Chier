@@ -15,7 +15,6 @@ target_link_libraries(ToolTests gtest gtest_main)
 #Add Google Tests
 include_directories("${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR}")
 
-
 #Add Util
 include_directories("${CMAKE_SOURCE_DIR}/Util")
 
@@ -31,5 +30,11 @@ target_link_libraries(ToolTests image_saver)
 
 include_directories("${CMAKE_SOURCE_DIR}/Tool/FileLoader")
 target_link_libraries(ToolTests regularExpressionTree)
+
+include_directories("${CMAKE_SOURCE_DIR}/Tool/HeliostatIndexGenerator")
+target_link_libraries(ToolTests heliostat_index_generator)
+
+include_directories("${CMAKE_SOURCE_DIR}/Tool/Smoother")
+target_link_libraries(ToolTests image_smoother)
 
 message("----------Tool Test cmake ends----------------------")
