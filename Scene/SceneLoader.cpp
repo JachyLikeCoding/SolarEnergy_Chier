@@ -9,6 +9,7 @@
 #include "CylinderReceiver.cuh"
 #include "RectangleHelio.cuh"
 #include "RectangleGrid.cuh"
+#include "FocusFlatRectangleHelio.cuh"
 
 /**TODO:
  * Add other types of components.
@@ -162,11 +163,11 @@ void SceneLoader::add_heliostat(SolarScene *solarScene, std::istream &stringstre
     Heliostat *heliostat = nullptr;
     switch(type){
         case 0:
-            heliostat = new RectangleHelio();
+            heliostat = new RectangleHelio();   // flat heliostat
             break;
-        //case 1:
-            //heliostat = new ParabolicHelio();
-            //break;
+        case 1:
+            heliostat = new FocusFlatRectangleHelio();  // focus flat heliostat
+            break;
         default:
             throw std::runtime_error("Heliostat has not defined.\n");
     }

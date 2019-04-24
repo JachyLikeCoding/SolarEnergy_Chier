@@ -50,7 +50,7 @@ namespace focusFlatRectangle_heliostat{
 class FocusFlatRectangleHelio : public Heliostat{
 private:
     float focus_length_;
-    int read_method;    // choose read method : (0) calculate by analytic formula (1) read from input file
+    int read_method = 0;    // choose read method : (0) calculate by analytic formula (1) read from input file
     float3 *d_local_normals;
     float3 *d_local_centers;
 

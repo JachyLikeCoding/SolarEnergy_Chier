@@ -62,6 +62,7 @@ private:
     TreeNode *receiver_node;
     TreeNode *grid_node;
     TreeNode *heliostat_node;
+    TreeNode *subheliostat_node;
 
 };
 

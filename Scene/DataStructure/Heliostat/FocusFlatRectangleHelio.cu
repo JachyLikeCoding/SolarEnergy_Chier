@@ -90,7 +90,7 @@ int FocusFlatRectangleHelio::CGetDiscreteMicroHelioOriginsAndNormals(float3 *&d_
     }
 
     focusFlatRectangle_heliostat::mapMicrohelioCentersAndNormals << < nBlocks, nThreads >> >
-                (d_microhelio_centers, d_microhelio_normals, d_local_normals, d_microhelio_centers,
+                (d_microhelio_centers, d_microhelio_normals, d_local_normals, d_local_centers,
                 make_float3(subhelio_row_col_length.y, size_.y, subhelio_row_col_length.x),     //subhelio_size
                 row_col_, sub_row_col, pixel_length_, map_size);
 
@@ -140,31 +140,31 @@ void FocusFlatRectangleHelio::CGetSubHeliostatVertexes(std::vector<float3> &subH
         for(int r = 0; r < row_col_.x; ++r){
             for(int c = 0; c < row_col_.y; ++c){
                 int id = global_func::unroll_index(make_int2(r, c), row_col_);
+
                 //local centers
                 h_local_centers[id] = make_float3(
                         c * (gap_.x + subhelio_row_col_length.y) - size_.x / 2 + subhelio_row_col_length.y / 2,
                         size_.y / 2,
-                        r * (gap_.y + subhelio_row_col_length.x) - size_.z / 2 + subhelio_row_col_length.x / 2
-                );
-                h_local_normals[id].y += (h_local_centers[id].x * h_local_centers[id].x +
+                        r * (gap_.y + subhelio_row_col_length.x) - size_.z / 2 + subhelio_row_col_length.x / 2);
+                h_local_centers[id].y += (h_local_centers[id].x * h_local_centers[id].x +
                                           h_local_centers[id].z * h_local_centers[id].z) / (4 * focus_length_);
-                cout << "h_local_centers[" << id << "] = " << h_local_centers[id].x << ", " << h_local_centers[id].y << ", " << h_local_centers[id].z << "]\n";
+                cout << "h_local_centers[" << id << "] = " << h_local_centers[id].x << ", " << h_local_centers[id].y << ", " << h_local_centers[id].z << "\n";
 
                 // local normals
                 h_local_normals[id] = make_float3(-1 / (2 * focus_length_) * h_local_centers[id].x,
                                                   1.0f,
                                                   -1 / (2 * focus_length_) * h_local_centers[id].z);
                 h_local_normals[id] = normalize(h_local_normals[id]);
-                cout << "h_local_normals[" << id << "] = " << h_local_normals[id].x << ", " << h_local_normals[id].y << ", " << h_local_normals[id].z << "]\n";
+                cout << "h_local_normals[" << id << "] = " << h_local_normals[id].x << ", " << h_local_normals[id].y << ", " << h_local_normals[id].z << "\n";
 
-                for(float3 subHeliostatVertex : localSubVertexes){
+                for (float3 subHeliostatVertex : localSubVertexes) {
                     subHeliostatVertex = focusFlatRectangle_heliostat::focusFlatRectangleHeliostatLocal2WorldRotate(
                             subHeliostatVertex, h_local_normals[id]);
-                    cout << "subHeliostatVertex[" << id << "] = " << subHeliostatVertex.x << ", " << subHeliostatVertex.y << ", " << subHeliostatVertex.z << "]\n";
-
+                    cout << "subHeliostatVertex[" << id << "] = " << subHeliostatVertex.x << ", " << subHeliostatVertex.y << ", " << subHeliostatVertex.z << endl;
                     subHeliostatVertex = global_func::translate(subHeliostatVertex, h_local_centers[id]);
 
-                    subHeliostatVertex = focusFlatRectangle_heliostat::focusFlatRectangleHeliostatLocal2WorldRotate(subHeliostatVertex, normal_);
+                    subHeliostatVertex = focusFlatRectangle_heliostat::focusFlatRectangleHeliostatLocal2WorldRotate(
+                            subHeliostatVertex, normal_);
                     subHeliostatVertex = global_func::translate(subHeliostatVertex, pos_);
 
                     subHeliostatVertexes.push_back(subHeliostatVertex);
@@ -175,7 +175,11 @@ void FocusFlatRectangleHelio::CGetSubHeliostatVertexes(std::vector<float3> &subH
     // 2)The second method:
     //      by reading from input file
     else if(read_method == 1){
+        printf("\nNote: choose read method: reading from input file.\n");
+    }
 
+    else{
+        printf("\nError: no corresponding read method.\n");
     }
 
     // Copy the local centers and normals from CPU to GPU
@@ -195,7 +199,7 @@ void FocusFlatRectangleHelio::CGetSubHeliostatVertexes(std::vector<float3> &subH
 
 std::vector<float3> FocusFlatRectangleHelio::getGPULocalCenters() {
     float3 *h_local_centers = new float3[row_col_.x * row_col_.y];
-    global_func::gpu2cpu(h_local_centers, d_local_normals, row_col_.x * row_col_.y);
+    global_func::gpu2cpu(h_local_centers, d_local_centers, row_col_.x * row_col_.y);
 
     std::vector<float3> cpu_local_centers;
     for(int i = 0; i < row_col_.x * row_col_.y; ++i){
@@ -228,6 +232,38 @@ void FocusFlatRectangleHelio::setGPULocalCenters(std::vector<float3> local_cente
 }
 
 
+std::vector<float3> FocusFlatRectangleHelio::getGPULocalNormals() {
+    float3 *h_local_normals = new float3[row_col_.x * row_col_.y];
+    global_func::gpu2cpu(h_local_normals, d_local_normals, row_col_.x * row_col_.y);
+
+    std::vector<float3> cpu_local_normals;
+    for (int i = 0; i < row_col_.x * row_col_.y; ++i) {
+        cpu_local_normals.push_back(h_local_normals[i]);
+    }
+
+    // Clear
+    delete[] h_local_normals;
+    h_local_normals = nullptr;
+
+    return cpu_local_normals;
+}
+
+void FocusFlatRectangleHelio::setGPULocalNormals(float3 *h_local_normals) {
+    global_func::cpu2gpu(d_local_normals, h_local_normals, row_col_.x * row_col_.y);
+}
+
+void FocusFlatRectangleHelio::setGPULocalNormals(std::vector<float3> local_normals) {
+    float3 *h_local_normals = new float3[row_col_.x * row_col_.y];
+    for (int i = 0; i < row_col_.x * row_col_.y; ++i) {
+        h_local_normals[i] = local_normals[i];
+    }
+    global_func::cpu2gpu(d_local_normals, h_local_normals, row_col_.x * row_col_.y);
+
+    delete[] h_local_normals;
+    h_local_normals = nullptr;
+}
+
+
 float FocusFlatRectangleHelio::getFocusLength() const {
     return focus_length_;
 }
@@ -254,7 +290,7 @@ std::vector<float> FocusFlatRectangleHelio::getSurfaceProperty() {
 
 void FocusFlatRectangleHelio::CSetNormalAndRotate(const float3 &focus_center, const float3 &sunray_dir) {
     if (focus_length_ < 0.0f) {
-        printf("Note: Reset the focus length.");
+        printf("\nNote: Reset the focus length.\n");
         focus_length_ = length(focus_center - pos_);
     }
     Heliostat::CSetNormalAndRotate(focus_center, sunray_dir);
