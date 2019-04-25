@@ -50,9 +50,10 @@ namespace focusFlatRectangle_heliostat{
 class FocusFlatRectangleHelio : public Heliostat{
 private:
     float focus_length_;
-    int read_method = 0;    // choose read method : (0) calculate by analytic formula (1) read from input file
+    int read_method_ = -1;    // choose read method : (-1) calculate by analytic formula  (1) read from input file
     float3 *d_local_normals;
     float3 *d_local_centers;
+
 
 public:
     FocusFlatRectangleHelio() : d_local_centers(nullptr), d_local_normals(nullptr){}
@@ -87,14 +88,17 @@ public:
     float getFocusLength() const;
     void setFocusLength(float focus_length);
 
+    float getReadMethod() const;
+    void setReadMethod(float read_method);
+
     std::vector<float3> getGPULocalNormals();
     void setGPULocalNormals(float3 *h_local_normals);
     void setGPULocalNormals(std::vector<float3> local_normals);
 
     std::vector<float3> getGPULocalCenters();
-
     void setGPULocalCenters(float3 *h_local_centers);
     void setGPULocalCenters(std::vector<float3> local_centers);
+
 };
 
 #endif //SOLARENERGY_CHIER_FOCUSFLATHELIO_CUH

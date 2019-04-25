@@ -16,7 +16,8 @@ private:
     void add_ground(SolarScene *solarScene, std::istream &stringstream);
     void add_receiver(SolarScene *solarScene, std::istream &stringstream);
     int add_grid(SolarScene *solarScene, std::istream &stringstream, int receiver_index, int heliostat_start_index);
-    void add_heliostat(SolarScene *solarScene, std::istream &stringstream, int type, float2 gap, int2 matrix, const std::vector<float> &surface_property);
+    void add_heliostat(SolarScene *solarScene, std::istream &stringstream, int type, float2 gap, int2 matrix, const std::vector<float> &surface_property,
+                        vector<float3> &local_centers, vector<float3> &local_normals);
     void checkScene(SolarScene *solarScene);
 
 

@@ -17,7 +17,7 @@ enum SubCenterType{
 
 class Heliostat{
 public:
-    Heliostat() : subCenterType_(Square), sub_helio_size_(1){}
+    Heliostat() : subCenterType_(Square), sub_helio_size_(1), h_local_centers(nullptr), h_local_normals(nullptr){}
 
     virtual void CSetNormalAndRotate(const float3 &focus_center, const float3 &sunray_dir);
     virtual int CGetDiscreteMicroHelioOriginsAndNormals(float3 *&d_microhelio_vertexes, float3 *&d_microhelio_normals) = 0;
@@ -61,6 +61,13 @@ public:
     int getBelongingGridId() const;
     void setBelongingGridId(int belonging_grid_id_);
 
+    std::vector<float3> getCPULocalNormals();
+    void setCPULocalNormals(float3 *h_local_normals_);
+    void setCPULocalNormals(std::vector<float3> local_normals);
+
+    std::vector<float3> getCPULocalCenters();
+    void setCPULocalCenters(float3 *h_local_centers_);
+    void setCPULocalCenters(std::vector<float3> local_centers);
 
 protected:
     float3 pos_;
@@ -73,6 +80,8 @@ protected:
     float pixel_length_;
     int sub_helio_size_;
     int belonging_grid_id_;
+    float3 *h_local_centers;
+    float3 *h_local_normals;
 
 private:
     void CSetWorldVertex();

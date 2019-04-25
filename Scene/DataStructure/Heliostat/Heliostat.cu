@@ -124,3 +124,48 @@ int Heliostat::getBelongingGridId() const {
 void Heliostat::setBelongingGridId(int belonging_grid_id) {
     belonging_grid_id_ = belonging_grid_id;
 }
+
+
+std::vector<float3> Heliostat::getCPULocalNormals(){
+    std::vector<float3> cpu_local_normals;
+    for(int i = 0; i < row_col_.x * row_col_.y; ++i){
+        cpu_local_normals.push_back(h_local_normals[i]);
+    }
+    return cpu_local_normals;
+}
+
+void Heliostat::setCPULocalNormals(float3 *h_local_normals_){
+    h_local_normals = h_local_normals_;
+}
+
+
+void Heliostat::setCPULocalNormals(std::vector<float3> local_normals){
+    int size = local_normals.size();
+    h_local_normals = new float3[size];
+    for (int i = 0; i < size; ++i) {
+        h_local_normals[i] = local_normals[i];
+    }
+}
+
+std::vector<float3> Heliostat::getCPULocalCenters(){
+    std::vector<float3> cpu_local_centers;
+    for(int i = 0; i < row_col_.x * row_col_.y; ++i){
+        printf("h_local_centers[%d] = (%f,%f,%f)\n",i,h_local_centers[i].x, h_local_centers[i].y, h_local_centers[i].z);
+        cpu_local_centers.push_back(h_local_centers[i]);
+    }
+    return cpu_local_centers;
+}
+
+
+
+void Heliostat::setCPULocalCenters(float3 *h_local_centers_){
+    h_local_centers = h_local_centers_;
+}
+
+void Heliostat::setCPULocalCenters(std::vector<float3> local_centers){
+    int size = local_centers.size();
+    h_local_centers = new float3[size];
+    for (int i = 0; i < size; ++i) {
+        h_local_centers[i] = local_centers[i];
+    }
+}

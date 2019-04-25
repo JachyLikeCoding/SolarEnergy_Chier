@@ -159,7 +159,8 @@ int SceneLoader::add_grid(SolarScene *solarScene, std::istream &stringstream, in
 }
 
 void SceneLoader::add_heliostat(SolarScene *solarScene, std::istream &stringstream,
-        int type, float2 gap, int2 matrix, const std::vector<float> &surface_property) {
+        int type, float2 gap, int2 matrix, const std::vector<float> &surface_property,
+        vector<float3> &h_local_centers_, vector<float3> &h_local_normals_) {
     Heliostat *heliostat = nullptr;
     switch(type){
         case 0:
@@ -172,6 +173,16 @@ void SceneLoader::add_heliostat(SolarScene *solarScene, std::istream &stringstre
             throw std::runtime_error("Heliostat has not defined.\n");
     }
 
+    switch(int(surface_property[1])){
+        case -1:
+            heliostat->setCPULocalCenters(nullptr);
+            heliostat->setCPULocalNormals(nullptr);
+            break;
+        case 1:
+            heliostat->setCPULocalCenters(h_local_centers_);
+            heliostat->setCPULocalNormals(h_local_normals_);
+            break;
+    }
     heliostat->setGap(gap);
     heliostat->setRowAndColumn(matrix);
     heliostat->setSurfaceProperty(surface_property);
@@ -233,11 +244,20 @@ bool SceneLoader::SceneFileRead(SolarScene *solarScene, std::string filepath) {
     int2 matrix = make_int2(1,1);
     float2 gap = make_float2(0.0f, 0.0f);
     std::vector<float> surface_property(6, -1.0f);
+
+    std::vector<float3> local_centers;//===============================================add here
+    std::vector<float3> local_normals;
+
     std::string head;
     int receiver_id = -1;
     int grid_id_for_each_receiver = 0;
     int heliostat_id_for_each_grid = 0;
     int current_total_heliostat = 0;
+
+    int current_total_local_centers = 0;    //============================================add here
+    int current_total_local_normals = 0;
+    int current_total_subheliostat = 0;
+
     int heliostat_type = -1;
 
     try{
@@ -279,13 +299,37 @@ bool SceneLoader::SceneFileRead(SolarScene *solarScene, std::string filepath) {
                 heliostat_id_for_each_grid = 0;
             }else if(head == "helio"){
                 current_status = sceneRETree_.step_forward(current_status, 'H');
-                add_heliostat(solarScene, scene_stream, heliostat_type, gap, matrix, surface_property);
+                add_heliostat(solarScene, scene_stream, heliostat_type, gap, matrix, surface_property, local_centers, local_normals);
                 ++heliostat_id_for_each_grid;
                 ++current_total_heliostat;
+            }else if(head == "subhelio"){
+                std::string comment;
+                getline(scene_stream, comment);
+
+                for(; current_total_local_centers < matrix.x * matrix.y; ++current_total_local_centers){
+                    float a,b,c;
+                    scene_stream >> a >> b >> c;
+                    local_centers.push_back(make_float3(a,b,c));
+                    getline(scene_stream,comment);
+                    ++current_total_heliostat;
+                }
+
+                for(; current_total_local_normals < matrix.x * matrix.y; ++current_total_local_normals){
+                    float a,b,c;
+                    scene_stream >> a >> b >> c;
+                    local_normals.push_back(make_float3(a,b,c));
+                    getline(scene_stream,comment);
+                    ++current_total_heliostat;
+                }
+
+                if(current_total_heliostat / 2 != matrix.x * matrix.y){
+                    std::cerr << "Error caused by wrong subhelio centers or normals. Please check your input files.\n";
+                }
             }else{
                 current_status = sceneRETree_.step_forward(current_status, '?');
             }
         }
+
         checkScene(solarScene);
         solarScene->SetLoaded_from_file(true);
 

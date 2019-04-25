@@ -130,11 +130,3 @@ const std::string &ArgumentParser::getOutputPath() const {
 void ArgumentParser::setOutputPath(const std::string &output_path) {
     ArgumentParser::output_path = output_path;
 }
-
-
-
-
-
-
-
-

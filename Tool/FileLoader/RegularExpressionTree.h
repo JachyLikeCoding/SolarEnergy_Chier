@@ -6,7 +6,7 @@
 #define SOLARENERGY_CHIER_REGULAREXPRESSIONTREE_H
 
 #include <vector>
-#define NEXT_SIZE 26
+#define NEXT_SIZE 26    // A-Z
 
 
 class TreeNode{
@@ -62,7 +62,7 @@ private:
     TreeNode *receiver_node;
     TreeNode *grid_node;
     TreeNode *heliostat_node;
-    TreeNode *subheliostat_node;
+    //TreeNode *subheliostat_node;
 
 };
 

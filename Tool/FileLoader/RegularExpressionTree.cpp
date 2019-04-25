@@ -40,8 +40,6 @@ void TreeNode::setTerminatedSignal(bool terminated_signal){
 }
 
 
-
-
 /**
  * SceneRegularExpressionTree functions
  */
@@ -52,6 +50,7 @@ bool SceneRegularExpressionTree::setUpTree(){
     receiver_node = new TreeNode(false);
     grid_node = new TreeNode(false);
     heliostat_node = new TreeNode(true);
+    //subheliostat_node = new TreeNode(true);
 
     start_node->setNextNode('D', ground_node);
     ground_node->setNextNode('R', receiver_node);
@@ -61,11 +60,18 @@ bool SceneRegularExpressionTree::setUpTree(){
     heliostat_node->setNextNode('R', receiver_node);
     heliostat_node->setNextNode('G', grid_node);
     heliostat_node->setNextNode('H', heliostat_node);
+    //heliostat_node->setNextNode('S', subheliostat_node);
+
+    //subheliostat_node->setNextNode('R', receiver_node);
+    //subheliostat_node->setNextNode('G', grid_node);
+    //subheliostat_node->setNextNode('H', heliostat_node);
+    //subheliostat_node->setNextNode('S', subheliostat_node);
 
     return true;
 }
 
 bool SceneRegularExpressionTree::destroyTree(){
+    //delete subheliostat_node;
     delete heliostat_node;
     delete grid_node;
     delete receiver_node;
