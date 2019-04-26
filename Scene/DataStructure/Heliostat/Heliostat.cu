@@ -150,7 +150,7 @@ void Heliostat::setCPULocalNormals(std::vector<float3> local_normals){
 std::vector<float3> Heliostat::getCPULocalCenters(){
     std::vector<float3> cpu_local_centers;
     for(int i = 0; i < row_col_.x * row_col_.y; ++i){
-        printf("h_local_centers[%d] = (%f,%f,%f)\n",i,h_local_centers[i].x, h_local_centers[i].y, h_local_centers[i].z);
+//        printf("h_local_centers[%d] = (%f,%f,%f)\n",i,h_local_centers[i].x, h_local_centers[i].y, h_local_centers[i].z);
         cpu_local_centers.push_back(h_local_centers[i]);
     }
     return cpu_local_centers;

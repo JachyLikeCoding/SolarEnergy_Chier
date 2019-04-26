@@ -245,7 +245,7 @@ bool SceneLoader::SceneFileRead(SolarScene *solarScene, std::string filepath) {
     float2 gap = make_float2(0.0f, 0.0f);
     std::vector<float> surface_property(6, -1.0f);
 
-    std::vector<float3> local_centers;//===============================================add here
+    std::vector<float3> local_centers;
     std::vector<float3> local_normals;
 
     std::string head;
@@ -254,7 +254,7 @@ bool SceneLoader::SceneFileRead(SolarScene *solarScene, std::string filepath) {
     int heliostat_id_for_each_grid = 0;
     int current_total_heliostat = 0;
 
-    int current_total_local_centers = 0;    //============================================add here
+    int current_total_local_centers = 0;
     int current_total_local_normals = 0;
     int current_total_subheliostat = 0;
 
@@ -300,6 +300,12 @@ bool SceneLoader::SceneFileRead(SolarScene *solarScene, std::string filepath) {
             }else if(head == "helio"){
                 current_status = sceneRETree_.step_forward(current_status, 'H');
                 add_heliostat(solarScene, scene_stream, heliostat_type, gap, matrix, surface_property, local_centers, local_normals);
+                // reset subhelio
+                current_total_subheliostat = 0;
+                current_total_local_normals = 0;
+                current_total_local_centers = 0;
+                local_centers.clear();
+                local_normals.clear();
                 ++heliostat_id_for_each_grid;
                 ++current_total_heliostat;
             }else if(head == "subhelio"){
@@ -311,7 +317,7 @@ bool SceneLoader::SceneFileRead(SolarScene *solarScene, std::string filepath) {
                     scene_stream >> a >> b >> c;
                     local_centers.push_back(make_float3(a,b,c));
                     getline(scene_stream,comment);
-                    ++current_total_heliostat;
+                    ++current_total_subheliostat;
                 }
 
                 for(; current_total_local_normals < matrix.x * matrix.y; ++current_total_local_normals){
@@ -319,10 +325,10 @@ bool SceneLoader::SceneFileRead(SolarScene *solarScene, std::string filepath) {
                     scene_stream >> a >> b >> c;
                     local_normals.push_back(make_float3(a,b,c));
                     getline(scene_stream,comment);
-                    ++current_total_heliostat;
+                    ++current_total_subheliostat;
                 }
 
-                if(current_total_heliostat / 2 != matrix.x * matrix.y){
+                if(current_total_subheliostat / 2 != matrix.x * matrix.y){
                     std::cerr << "Error caused by wrong subhelio centers or normals. Please check your input files.\n";
                 }
             }else{

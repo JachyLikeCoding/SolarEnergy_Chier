@@ -137,6 +137,7 @@ void FocusFlatRectangleHelio::CGetSubHeliostatVertexes(std::vector<float3> &subH
     // 1)The first method:
     //      by calculating the analytic formula
     if(read_method_ == -1){
+        printf("\nNote: choose read method: calculating the analytic formula.\n");
         for(int r = 0; r < row_col_.x; ++r){
             for(int c = 0; c < row_col_.y; ++c){
                 int id = global_func::unroll_index(make_int2(r, c), row_col_);
@@ -148,19 +149,19 @@ void FocusFlatRectangleHelio::CGetSubHeliostatVertexes(std::vector<float3> &subH
                         r * (gap_.y + subhelio_row_col_length.x) - size_.z / 2 + subhelio_row_col_length.x / 2);
                 h_local_centers[id].y += (h_local_centers[id].x * h_local_centers[id].x +
                                           h_local_centers[id].z * h_local_centers[id].z) / (4 * focus_length_);
-                cout << "h_local_centers[" << id << "] = " << h_local_centers[id].x << ", " << h_local_centers[id].y << ", " << h_local_centers[id].z << "\n";
+//                cout << "h_local_centers[" << id << "] = " << h_local_centers[id].x << ", " << h_local_centers[id].y << ", " << h_local_centers[id].z << "\n";
 
                 // local normals
                 h_local_normals[id] = make_float3(-1 / (2 * focus_length_) * h_local_centers[id].x,
                                                   1.0f,
                                                   -1 / (2 * focus_length_) * h_local_centers[id].z);
                 h_local_normals[id] = normalize(h_local_normals[id]);
-                cout << "h_local_normals[" << id << "] = " << h_local_normals[id].x << ", " << h_local_normals[id].y << ", " << h_local_normals[id].z << "\n";
+//                cout << "h_local_normals[" << id << "] = " << h_local_normals[id].x << ", " << h_local_normals[id].y << ", " << h_local_normals[id].z << "\n";
 
                 for (float3 subHeliostatVertex : localSubVertexes) {
                     subHeliostatVertex = focusFlatRectangle_heliostat::focusFlatRectangleHeliostatLocal2WorldRotate(
                             subHeliostatVertex, h_local_normals[id]);
-                    cout << "subHeliostatVertex[" << id << "] = " << subHeliostatVertex.x << ", " << subHeliostatVertex.y << ", " << subHeliostatVertex.z << endl;
+//                    cout << "subHeliostatVertex[" << id << "] = " << subHeliostatVertex.x << ", " << subHeliostatVertex.y << ", " << subHeliostatVertex.z << endl;
                     subHeliostatVertex = global_func::translate(subHeliostatVertex, h_local_centers[id]);
 
                     subHeliostatVertex = focusFlatRectangle_heliostat::focusFlatRectangleHeliostatLocal2WorldRotate(
@@ -186,17 +187,17 @@ void FocusFlatRectangleHelio::CGetSubHeliostatVertexes(std::vector<float3> &subH
                 //local centers
                 h_local_centers[id] = local_centers[id];
 
-                cout << "h_local_centers[" << id << "] = " << h_local_centers[id].x << ", " << h_local_centers[id].y << ", " << h_local_centers[id].z << "\n";
+//                cout << "h_local_centers[" << id << "] = " << h_local_centers[id].x << ", " << h_local_centers[id].y << ", " << h_local_centers[id].z << "\n";
 
                 // local normals
                 h_local_normals[id] = local_normals[id];
                 h_local_normals[id] = normalize(h_local_normals[id]);
-                cout << "h_local_normals[" << id << "] = " << h_local_normals[id].x << ", " << h_local_normals[id].y << ", " << h_local_normals[id].z << "\n";
+//                cout << "h_local_normals[" << id << "] = " << h_local_normals[id].x << ", " << h_local_normals[id].y << ", " << h_local_normals[id].z << "\n";
 
                 for (float3 subHeliostatVertex : localSubVertexes) {
                     subHeliostatVertex = focusFlatRectangle_heliostat::focusFlatRectangleHeliostatLocal2WorldRotate(
                             subHeliostatVertex, h_local_normals[id]);
-                    cout << "subHeliostatVertex[" << id << "] = " << subHeliostatVertex.x << ", " << subHeliostatVertex.y << ", " << subHeliostatVertex.z << endl;
+//                  cout << "subHeliostatVertex[" << id << "] = " << subHeliostatVertex.x << ", " << subHeliostatVertex.y << ", " << subHeliostatVertex.z << endl;
                     subHeliostatVertex = global_func::translate(subHeliostatVertex, h_local_centers[id]);
 
                     subHeliostatVertex = focusFlatRectangle_heliostat::focusFlatRectangleHeliostatLocal2WorldRotate(

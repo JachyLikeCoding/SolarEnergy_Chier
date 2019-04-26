@@ -60,12 +60,12 @@ bool SceneRegularExpressionTree::setUpTree(){
     heliostat_node->setNextNode('R', receiver_node);
     heliostat_node->setNextNode('G', grid_node);
     heliostat_node->setNextNode('H', heliostat_node);
-    //heliostat_node->setNextNode('S', subheliostat_node);
-
-    //subheliostat_node->setNextNode('R', receiver_node);
-    //subheliostat_node->setNextNode('G', grid_node);
-    //subheliostat_node->setNextNode('H', heliostat_node);
-    //subheliostat_node->setNextNode('S', subheliostat_node);
+//    heliostat_node->setNextNode('S', subheliostat_node);
+//
+//    subheliostat_node->setNextNode('R', receiver_node);
+//    subheliostat_node->setNextNode('G', grid_node);
+//    subheliostat_node->setNextNode('H', heliostat_node);
+//    subheliostat_node->setNextNode('S', subheliostat_node);
 
     return true;
 }
