@@ -8,7 +8,7 @@
   "num_per_sunshape_group": 1024,
   "inverse_transform_sampling_groups": 64,
 
-  "receiver_pixel_length": 0.1,
+  "receiver_pixel_length": 0.05,
 
   "helio_disturb_std": 0.001,
   "helio_reflected_rate": 0.88,

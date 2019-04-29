@@ -54,5 +54,5 @@ float ImageSaver::saveText(std::string filename, int height, int width, float *h
     fout << ss.rdbuf();
     fout.close();
 
-    return max_value;
+    return summation_value;
 }

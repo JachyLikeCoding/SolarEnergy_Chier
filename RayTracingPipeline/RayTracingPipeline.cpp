@@ -53,7 +53,7 @@ void RayTracingPipeline::rayTracing(int argc, char **argv) {
     vector<float> max_values;
     vector<float> sum_values;
 
-    for(int i = 0 ; i < 1; ++i){
+    for(int i = 0 ; i < 100; ++i){
 
         // 3. Ray tracing (could be parallel)
         std::cout << "\n3. Start ray tracing..." << std::endl;
@@ -124,7 +124,7 @@ float RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pat
 
     auto start_time = std::chrono::high_resolution_clock::now();
     //Image smooth:
-    ImageSmoother::image_smooth(d_array, 5, 0.05, resolution.x, resolution.y);          //TODO: TEST diff number here
+    ImageSmoother::image_smooth(d_array, 10, 0.05, resolution.x, resolution.y);          //TODO: TEST diff number here
     auto end_time = std::chrono::high_resolution_clock::now();
     long long elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
     std::cout << "\t[Smooth time]:  " << elapsed << " microseconds." << std::endl;
