@@ -17,6 +17,8 @@ __global__ void map_raytracing(SunrayArgument sunrayArgument, RectangleReceiver 
     float3 dir = global_func::local2world_rotate(sunrayArgument.d_samplelights[address], -sunrayArgument.sunray_direction);
     float3 origin = heliostatArgument.d_microHelio_origins[myId / sunrayArgument.numberOfLightsPerGroup];
 
+
+
     if(rectGridDDA::collision(origin, dir, rectangleGrid, d_subheliostat_vertexes, heliostatArgument)){
         return;
     }

@@ -53,7 +53,7 @@ void RayTracingPipeline::rayTracing(int argc, char **argv) {
     vector<float> max_values;
     vector<float> sum_values;
 
-    for(int i = 0 ; i < 100; ++i){
+    for(int i = 0 ; i < 1; ++i){
 
         // 3. Ray tracing (could be parallel)
         std::cout << "\n3. Start ray tracing..." << std::endl;
