@@ -114,6 +114,7 @@ void RayTracingPipeline::rayTracing(int argc, char **argv) {
 }
 
 
+//Two smooth methods: trim mean & trim gaussian
 float RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pathAndName, int receiverIndex) {
     int2 resolution = receiver->getResolution();
     float *h_array = nullptr;
@@ -123,15 +124,21 @@ float RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pat
     float max_value = ImageSaver::saveText(pathAndName + "_receiver_before_smooth.txt" , resolution.y, resolution.x, h_array);
 
     auto start_time = std::chrono::high_resolution_clock::now();
-    //Image smooth:
-    ImageSmoother::image_smooth(d_array, 10, 0.05, resolution.x, resolution.y);          //TODO: TEST diff number here
+    //Image smooth method: trim mean smooth
+//    ImageSmoother::image_smooth(d_array, 5, 0.05, resolution.x, resolution.y);          //TODO: TEST diff number here
+//    std::cout << "【Trim Gaussian Smooth】" << std::endl;
+
+    //Image smooth； trim gaussian smooth
+    ImageSmoother::image_smooth(d_array, 5, 0.05, resolution.x, resolution.y, 1.0f);
+    std::cout << "【Trim Gaussian Smooth】" << std::endl;
+
     auto end_time = std::chrono::high_resolution_clock::now();
     long long elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count();
     std::cout << "\t[Smooth time]:  " << elapsed << " microseconds." << std::endl;
 
     global_func::gpu2cpu(h_array, d_array, resolution.x * resolution.y);
-    max_value = ImageSaver::saveText(pathAndName + "_receiver_after_smooth.txt", resolution.y, resolution.x, h_array);
 
+    max_value = ImageSaver::saveText(pathAndName + "_receiver_after_smooth.txt", resolution.y, resolution.x, h_array);
 
     // clear
     delete(h_array);
