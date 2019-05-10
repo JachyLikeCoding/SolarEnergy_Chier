@@ -18,7 +18,7 @@ namespace samplelights{
     //  - h_k:(return value) slope (length_interval / subarea)
     //  - num_group: num of intervals
     //  - k, gamma: used in intensity calculation
-    //  -upper_lm: length_interval = upper_lm / num_group
+    //  - upper_lm: length_interval = upper_lm / num_group
 
     float2 *parameters_generate(float *h_k, int num_group, float k, float gamma, float upper_lm){
         float length_interval = upper_lm / float(num_group);
@@ -138,7 +138,7 @@ namespace samplelights{
 }
 
 
-/**
+/***********************************************************************************************************************
  * Permutation: Generate sample lights with
  *  - theta ~ G(0, disturb_std)
  *  - phi ~ Uniform(0, 2pi)
@@ -187,7 +187,7 @@ bool SceneProcessor::set_perturbation(Sunray &sunray) {
 }
 
 
-/**
+/***********************************************************************************************************************
  * sampleLights: Generate sample lights with
  *  - theta ~ Buie distribution
  *  - phi ~ Uniform(0, 2pi)
@@ -269,21 +269,4 @@ bool SceneProcessor::set_samplelights(Sunray &sunray) {
 
     return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -238,7 +238,7 @@ __global__ void trimmed_gaussian(float *output, cudaTextureObject_t texObj,
             }
         }
     }
-
+    __syncthreads();
     // Step 2: Read from texture amd write to global memory
     output[y * width + x] = (value_sum - max_heap.sum2() - min_heap.sum2()) / (k_sum - min_heap.sumy() - max_heap.sumy());
     //printf("\noutput: %f",output[y * width + x]);

@@ -124,9 +124,9 @@ float RayTracingPipeline::saveReceiverResult(Receiver *receiver, std::string pat
     float max_value = ImageSaver::saveText(pathAndName + "_receiver_before_smooth.txt" , resolution.y, resolution.x, h_array);
 
     auto start_time = std::chrono::high_resolution_clock::now();
-    //Image smooth method: trim mean smooth
+//    //Image smooth method: trim mean smooth
 //    ImageSmoother::image_smooth(d_array, 5, 0.05, resolution.x, resolution.y);          //TODO: TEST diff number here
-//    std::cout << "【Trim Gaussian Smooth】" << std::endl;
+//    std::cout << "【Trim Mean Smooth】" << std::endl;
 
     //Image smooth； trim gaussian smooth
     ImageSmoother::image_smooth(d_array, 5, 0.05, resolution.x, resolution.y, 1.0f);
