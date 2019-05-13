@@ -147,7 +147,7 @@ bool TaskLoader::loadRayTracingHeliostatIndex(std::string filepath, SolarScene &
     bool ans = true;
     for (int i = 0; i < N; ++i) {
 
-        std::cout << "heliostat_index = " << i << endl;
+        //std::cout << "heliostat_index = " << i << endl;
 
         // No more heliostat indexes
         if (task_stream.rdbuf()->in_avail() == 0) {

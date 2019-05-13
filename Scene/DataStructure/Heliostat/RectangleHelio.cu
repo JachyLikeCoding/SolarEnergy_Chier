@@ -110,8 +110,8 @@ int RectangleHelio::CGetDiscreteMicroHelioOriginsAndNormals(float3 *&d_microheli
 
     rectangle_heliostat::map_microhelio_center_and_normal << < nBlocks, nThreads >> >
             (d_microhelio_centers, d_microhelio_normals, normal_, size_, row_col_, sub_row_col, pixel_length_, gap_, pos_, map_size);
-    printf("map_size: ");
-    printf("%d\t", map_size);
+    //printf("map_size: ");
+    //printf("%d\t", map_size);
     return map_size;
 }
 

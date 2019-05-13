@@ -17,6 +17,7 @@ void Heliostat::CSetNormal(const float3 &focus_center, const float3 &sunray_dir)
     float3 reflect_dir = focus_center - local_center;
     reflect_dir = normalize(reflect_dir);
     normal_ = normalize(reflect_dir - sunray_dir);
+    printf("\nnormal：%f,%f,%f\n",normal_.x,normal_.y,normal_.z);
 }
 
 /**

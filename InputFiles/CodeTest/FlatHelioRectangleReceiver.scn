@@ -1,0 +1,26 @@
+# Ground Boundary
+ground 	1024.000000	1024.000000
+ngrid	1
+
+# Receiver attributes
+Recv 	0
+pos		0 55 0
+size	4.6 4.6 1
+norm	-10 55 -10
+face	0
+end
+
+# Grid attributes
+Grid	0
+pos		0.000000	0.0000000	0.0000000
+size	20.000000	20.00000	20.000000
+inter	20.000000	20.0000000	20.0000000
+n		1
+type	0
+end
+
+# Heliostat 1 : Flat Rectangle Heliostat
+gap     0 0
+matrix  1 1
+helio	90.972 3.911 20.967
+		1.6 0.1 1.25

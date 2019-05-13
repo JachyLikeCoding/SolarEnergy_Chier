@@ -23,7 +23,7 @@ end
 # Heliostat 1 : the second heliostat in PS-10-typical
 gap     0.1000000   0.1000000
 matrix  4           7
-surface_property -1  -1 -1 -1 -1 -1
+surface_property -1 1 -1 -1 -1 -1
 subhelio
 -4.35000000000000	0.0151471312655876	-4.96500000000000
 -2.90000000000000	0.0112593723898479	-4.96500000000000
