@@ -46,7 +46,9 @@ void RayTracingPipeline::rayTracing(int argc, char **argv) {
     TaskLoader taskLoader;
     taskLoader.loadRayTracingHeliostatIndex(argumentParser->getHeliostatIndexLoadPath(), *solarScene);
 
-
+    auto sumstart_time = std::chrono::high_resolution_clock::now();
+    auto sumend_time = sumstart_time;
+    long long sumelapsed;
     /**
      * Test 100 times here:
      */
@@ -103,11 +105,17 @@ void RayTracingPipeline::rayTracing(int argc, char **argv) {
 
     }
 
-    std::cout << "max_values====================" << std::endl;
-    for(float max_value : max_values){
-        std::cout << max_value << ",";
-    }
-    std::cout << std::endl;
+
+//    std::cout << "max_values====================" << std::endl;
+//    for(float max_value : max_values){
+//        std::cout << max_value << ",";
+//    }
+//    std::cout << std::endl;
+
+    sumend_time = std::chrono::high_resolution_clock::now();
+    sumelapsed = std::chrono::duration_cast<std::chrono::microseconds>(sumend_time - sumstart_time).count();
+
+    std::cout << "All heliostats totally took " << sumelapsed << " microseconds to ray tracing." << std::endl;
 
     // 5. Clean up the scene
     solarScene->clear();

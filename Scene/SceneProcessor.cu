@@ -5,20 +5,20 @@
 
 namespace samplelights{
     float sunshape_intensity(float theta, const float &k, const float &gamma){
-        //theta must be in range [0 , 4.65]
+        //theta must be in  [0 , 4.65]
         //Buie model：
-        //return cosf(0.326f * theta) / cosf(0.308f * theta);
+        return cosf(0.326f * theta) / cosf(0.308f * theta);
         //Pillbox model：
-        return 1.0f;
+        //return theta/4.65f;
 
     }
 
     float integration_larger_than_465_intensity(float theta, float k, float gamma){
         //theta must be in range (4.65 , 9.3]
         //Buie model
-        //return expf(k) / (gamma + 1) * powf(theta, gamma + 1);
+        return expf(k) / (gamma + 1) * powf(theta, gamma + 1);
         //Pillbox
-        return 0.0f;
+        //return 1.0f;
     }
 
     //Description:
